@@ -18,6 +18,9 @@ column_names <- read_excel(original_xls,
 eo_data_import <- read_excel(original_xls, 
                              sheet = "Main", skip = 0)
 
+eo_data_import[ eo_data_import == "No Data" ] <- NA
+eo_data_import[ eo_data_import == "#VALUE!" ] <- NA
+
 # ,   col_names = column_names)
 
 # remove last 3 rows
@@ -47,22 +50,62 @@ names(eoData)[grepl('SP.POP.GROW', names(eoData))] <- 'Growth_rate_pop_2020'
 names(eoData)[grepl('SP.DYN.CONM.ZS', names(eoData))] <- 'Modern_contraception_2020'
 names(eoData)[grepl('Actual Comment', names(eoData))] <- 'Comments'
 
-names(eoData)[3] <- 'Biocapacity_2018'
-names(eoData)[4] <- 'Footprint_2018'
-names(eoData)[5] <- 'Population_2018'
-names(eoData)[8] <- 'Footprint_2017'
-names(eoData)[9] <- 'Population_2017'
+names(eoData)[3] <- 'Ratio_Biocapacity'
+names(eoData)[4] <- 'Ratio_Footprint'
+names(eoData)[5] <- 'Ratio_Population'
+names(eoData)[6] <- 'Ratio_SustainPop'
 
-# check country names
-eoData <- eoData[order(eoData$Country),] 
-
+names(eoData)[7] <- 'Biocapacity_2018'
+names(eoData)[8] <- 'Footprint_2018'
+names(eoData)[9] <- 'Population_2018'
+names(eoData)[12] <- 'Footprint_2017'
+names(eoData)[13] <- 'Population_2017'
 
 eo <- eoData %>% 
-  select(iso2c, Country, Population_2017, SustainPop_2017, 
+  select(iso2c, Country,
+         Ratio_Biocapacity, Ratio_Footprint, Ratio_Population, Ratio_SustainPop,
+         Biocapacity_2017, Footprint_2017, Population_2017, SustainPop_2017, 
+         Biocapacity_2018, Footprint_2018, Population_2018, SustainPop_2018,
          Growth_rate_pop_2020, Modern_contraception_2020, 
          Species_threat_2021_2, GDP_pp_2020, Rank_sustain_2020)
 
+# convert character columns to numeric
+charToNumeric <- c(FALSE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
+                 TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, TRUE, FALSE)
+eo[, charToNumeric] <- as.data.frame(apply(eo[ , charToNumeric], 2, as.numeric))
+# check appropriate columns numeric
+sapply(eo, class)
+
+eo$Ratio_Biocapacity <- round(eo$Ratio_Biocapacity, digits=2)
+eo$Ratio_Footprint <- round(eo$Ratio_Footprint, digits=2)
+eo$Ratio_Population <- round(eo$Ratio_Population, digits=2)
+eo$Ratio_SustainPop <- round(eo$Ratio_SustainPop, digits=2)
+
+# check country names
+eo_before_alphabetic_sort_Country <- eo
+eo <- eo[order(eo$Country),] 
+all.equal(eo, eo_before_alphabetic_sort_Country)
+eo <- eo_before_alphabetic_sort_Country
+
 # detect missing values, how many and which countries?
+eo %>% 
+  select(Country, Biocapacity_2018) %>% 
+  filter(is.na(Biocapacity_2018))
+eo %>% 
+  select(Country, Footprint_2018) %>% 
+  filter(is.na(Footprint_2018))
+eo %>% 
+  select(Country, Biocapacity_2017) %>% 
+  filter(is.na(Biocapacity_2017))
+eo %>% 
+  select(Country, Footprint_2017) %>% 
+  filter(is.na(Footprint_2017))
+eo %>% 
+  select(Country, Population_2018) %>% 
+  filter(is.na(Population_2018))
+eo %>% 
+  select(Country, SustainPop_2018) %>% 
+  filter(is.na(SustainPop_2018))
 eo %>% 
   select(Country, Population_2017) %>% 
   filter(is.na(Population_2017))
