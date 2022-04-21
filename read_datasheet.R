@@ -81,6 +81,25 @@ eo$Ratio_Footprint <- round(eo$Ratio_Footprint, digits=2)
 eo$Ratio_Population <- round(eo$Ratio_Population, digits=2)
 eo$Ratio_SustainPop <- round(eo$Ratio_SustainPop, digits=2)
 
+eo %>% 
+  select(Country, Ratio_Population) %>%
+  drop_na() %>% 
+  filter(Ratio_Population > 1.04)
+eo %>% 
+  select(Country, Ratio_Population) %>%
+  drop_na() %>% 
+  filter(Ratio_Population < 0.95)
+
+eo %>% 
+  select(Country, Growth_rate_pop_2020) %>%
+  drop_na() %>% 
+  filter(Growth_rate_pop_2020 > 3)
+eo %>% 
+  select(Country, Growth_rate_pop_2020) %>%
+  drop_na() %>% 
+  filter(Growth_rate_pop_2020 < -1)
+
+
 # check country names
 eo_before_alphabetic_sort_Country <- eo
 eo <- eo[order(eo$Country),] 
