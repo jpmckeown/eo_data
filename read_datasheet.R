@@ -1,34 +1,56 @@
 library(tidyverse)
+library(readxl)
 library(googledrive)
 library(googlesheets4)
 library(countrycode)
 library(stringi)
 
-eo_id <- '1MND7qbKQZ3Q-pLS2182un7z6ZkUtY3LzvUf626SLuEw'
-sheet_names(ss = eo_id)
+# eo_id <- '1MND7qbKQZ3Q-pLS2182un7z6ZkUtY3LzvUf626SLuEw'
+# sheet_names(ss = eo_id)
+# eoData <- read_sheet(ss = eo_id, sheet ='Main')
 
-eoData <- read_sheet(ss = eo_id, sheet ='Main')
+original_xls <- "data/Country Data .xlsx"
 
-eoData <- eoData %>% 
-  filter(!is.na(Country)) %>% 
-  filter(Country != 'World')
+column_names <- read_excel(original_xls, 
+                           sheet = "Main", 
+                           .name_repair = "minimal") %>% names()
+
+eo_data_import <- read_excel(original_xls, 
+                             sheet = "Main", skip = 0)
+
+# ,   col_names = column_names)
+
+# remove last 3 rows
+eoData <- head(eo_data_import, -3)
+# eoData <- eo_data_import %>% 
+#   filter(!is.na(Country)) %>% 
+#   filter(Country != 'World')
 
 # column names make shorter
 # finding by old name rather than colnum
 names(eoData)[grepl('GDP per capita', names(eoData))] <- 'GDP_pp_2020'
-names(eoData)[grepl('2017 Population', names(eoData))] <- 'Population_2017'
+
+names(eoData)[grepl('2017 Population (GFN)', names(eoData))] <- 'Population_2017'
 names(eoData)[grepl('2017 Maximum Population', names(eoData))] <- 'SustainPop_2017'
+names(eoData)[grepl('2017 Population (GFN)', names(eoData))] <- 'Population_2017'
+names(eoData)[grepl('2017 Maximum Population', names(eoData))] <- 'SustainPop_2017'
+
+names(eoData)[grepl('2018 biocapacity Hectares per person in Hectares (GFN)', 
+                    names(eoData))] <- 'Biocapacity_2018'
+names(eoData)[grepl('2018 ecological footprint Hectares per person (GFN)', 
+                    names(eoData))] <- 'Footprint_2018'
+names(eoData)[grepl('2018 Population (GFN)', names(eoData))] <- 'Population_2018'
+names(eoData)[grepl('2018 Maximum Population', names(eoData))] <- 'SustainPop_2018'
+
 names(eoData)[grepl('2020 Rank', names(eoData))] <- 'Rank_sustain_2020'
 names(eoData)[grepl('Table 5, accessed Sept 2021', names(eoData))] <- 'Species_threat_2021_2'
 names(eoData)[grepl('SP.POP.GROW', names(eoData))] <- 'Growth_rate_pop_2020'
 names(eoData)[grepl('SP.DYN.CONM.ZS', names(eoData))] <- 'Modern_contraception_2020'
 names(eoData)[grepl('Actual Comment', names(eoData))] <- 'Comments'
 
-names(eoData)[grepl('2018 Population GFN', names(eoData))] <- 'Population_2018'
-names(eoData)[grepl('2018 Maximum Population', names(eoData))] <- 'SustainPop_2018'
-
 # check country names
-eoData <- eoData[order(eoData$Country),]
+eoData <- eoData[order(eoData$Country),] 
+
 
 eo <- eoData %>% 
   select(iso2c, Country, Population_2017, SustainPop_2017, 
