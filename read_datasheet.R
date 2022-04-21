@@ -30,13 +30,12 @@ eoData <- head(eo_data_import, -3)
 # finding by old name rather than colnum
 names(eoData)[grepl('GDP per capita', names(eoData))] <- 'GDP_pp_2020'
 
-names(eoData)[grepl('2017 Population (GFN)', names(eoData))] <- 'Population_2017'
-names(eoData)[grepl('2017 Maximum Population', names(eoData))] <- 'SustainPop_2017'
+names(eoData)[grepl('2017 biocapacity per person in Hectares', names(eoData))] <- 'Biocapacity_2017'
+names(eoData)[grepl('2017 EF per person Hectares)', names(eoData))] <- 'Footprint_2017'
 names(eoData)[grepl('2017 Population (GFN)', names(eoData))] <- 'Population_2017'
 names(eoData)[grepl('2017 Maximum Population', names(eoData))] <- 'SustainPop_2017'
 
-names(eoData)[grepl('2018 biocapacity Hectares per person in Hectares (GFN)', 
-                    names(eoData))] <- 'Biocapacity_2018'
+names(eoData)[grepl('2018 biocapacity Hectares per person (GFN)', names(eoData))] <- 'Biocapacity_2018'
 names(eoData)[grepl('2018 ecological footprint Hectares per person (GFN)', 
                     names(eoData))] <- 'Footprint_2018'
 names(eoData)[grepl('2018 Population (GFN)', names(eoData))] <- 'Population_2018'
@@ -47,6 +46,12 @@ names(eoData)[grepl('Table 5, accessed Sept 2021', names(eoData))] <- 'Species_t
 names(eoData)[grepl('SP.POP.GROW', names(eoData))] <- 'Growth_rate_pop_2020'
 names(eoData)[grepl('SP.DYN.CONM.ZS', names(eoData))] <- 'Modern_contraception_2020'
 names(eoData)[grepl('Actual Comment', names(eoData))] <- 'Comments'
+
+names(eoData)[3] <- 'Biocapacity_2018'
+names(eoData)[4] <- 'Footprint_2018'
+names(eoData)[5] <- 'Population_2018'
+names(eoData)[8] <- 'Footprint_2017'
+names(eoData)[9] <- 'Population_2017'
 
 # check country names
 eoData <- eoData[order(eoData$Country),] 
