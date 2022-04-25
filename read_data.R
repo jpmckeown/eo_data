@@ -25,52 +25,30 @@ eo_data_import[ eo_data_import == "#VALUE!" ] <- NA
 
 # remove last 3 rows
 eoData <- head(eo_data_import, -3)
-# eoData <- eo_data_import %>% 
-#   filter(!is.na(Country)) %>% 
-#   filter(Country != 'World')
 
 # column names make shorter
 # finding by old name rather than colnum
 names(eoData)[grepl('GDP per capita', names(eoData))] <- 'GDP_pp_2020'
 
-names(eoData)[grepl('2017 biocapacity per person in Hectares', names(eoData))] <- 'Biocapacity_2017'
-names(eoData)[grepl('2017 EF per person Hectares)', names(eoData))] <- 'Footprint_2017'
-names(eoData)[grepl('2017 Population (GFN)', names(eoData))] <- 'Population_2017'
-names(eoData)[grepl('2017 Maximum Population', names(eoData))] <- 'SustainPop_2017'
-
-names(eoData)[grepl('2018 biocapacity Hectares per person (GFN)', names(eoData))] <- 'Biocapacity_2018'
-names(eoData)[grepl('2018 ecological footprint Hectares per person (GFN)', 
-                    names(eoData))] <- 'Footprint_2018'
 names(eoData)[grepl('2018 Population (GFN)', names(eoData))] <- 'Population_2018'
 names(eoData)[grepl('2018 Maximum Population', names(eoData))] <- 'SustainPop_2018'
-
 names(eoData)[grepl('2020 Rank', names(eoData))] <- 'Rank_sustain_2020'
 names(eoData)[grepl('Table 5, accessed Sept 2021', names(eoData))] <- 'Species_threat_2021_2'
 names(eoData)[grepl('SP.POP.GROW', names(eoData))] <- 'Growth_rate_pop_2020'
 names(eoData)[grepl('SP.DYN.CONM.ZS', names(eoData))] <- 'Modern_contraception_2020'
 names(eoData)[grepl('Actual Comment', names(eoData))] <- 'Comments'
 
-names(eoData)[5] <- 'Ratio_Biocapacity'
-names(eoData)[6] <- 'Ratio_Footprint'
-names(eoData)[7] <- 'Ratio_Population'
-names(eoData)[8] <- 'Ratio_SustainPop'
-names(eoData)[9] <- 'Biocapacity_2018'
-names(eoData)[10] <- 'Footprint_2018'
-names(eoData)[11] <- 'Population_2018'
-names(eoData)[16] <- 'Footprint_2017'
-names(eoData)[17] <- 'Population_2017'
+# check index
+# names(eoData)[11] <- 'Population_2018'
 
-saveRDS(eoData, "data/eoData_25Apr2022.rds")
+saveRDS(eoData, "data/eoData_27Apr2022.rds")
 
-# remove all typo checking to separate file
 eo <- eoData %>% 
-  select(iso2c, Country,
-         Ratio_Biocapacity, Ratio_Footprint, Ratio_Population, Ratio_SustainPop,
-         Biocapacity_2017, Footprint_2017, Population_2017, SustainPop_2017, 
-         Biocapacity_2018, Footprint_2018, Population_2018, SustainPop_2018,
+  select(iso2c, Country, Population_2018, SustainPop_2018,
          Growth_rate_pop_2020, Modern_contraception_2020, 
          Species_threat_2021_2, GDP_pp_2020, Rank_sustain_2020)
 
+# check how many cols now
 # convert character columns to numeric
 charToNumeric <- c(FALSE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
                  TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, TRUE, FALSE)
@@ -78,29 +56,15 @@ eo[, charToNumeric] <- as.data.frame(apply(eo[ , charToNumeric], 2, as.numeric))
 # check appropriate columns numeric
 sapply(eo, class)
 
-eo$Ratio_Biocapacity <- round(eo$Ratio_Biocapacity, digits=2)
-eo$Ratio_Footprint <- round(eo$Ratio_Footprint, digits=2)
-eo$Ratio_Population <- round(eo$Ratio_Population, digits=2)
-eo$Ratio_SustainPop <- round(eo$Ratio_SustainPop, digits=2)
-
-eo %>% 
-  select(Country, Ratio_Population) %>%
-  drop_na() %>% 
-  filter(Ratio_Population > 1.04)
-eo %>% 
-  select(Country, Ratio_Population) %>%
-  drop_na() %>% 
-  filter(Ratio_Population < 0.95)
-
 eo %>% 
   select(Country, Growth_rate_pop_2020) %>%
   drop_na() %>% 
   filter(Growth_rate_pop_2020 > 3)
+
 eo %>% 
   select(Country, Growth_rate_pop_2020) %>%
   drop_na() %>% 
   filter(Growth_rate_pop_2020 < -1)
-
 
 # check country names
 eo_before_alphabetic_sort_Country <- eo
@@ -108,31 +72,14 @@ eo <- eo[order(eo$Country),]
 all.equal(eo, eo_before_alphabetic_sort_Country)
 eo <- eo_before_alphabetic_sort_Country
 
-# detect missing values, how many and which countries?
-eo %>% 
-  select(Country, Biocapacity_2018) %>% 
-  filter(is.na(Biocapacity_2018))
-eo %>% 
-  select(Country, Footprint_2018) %>% 
-  filter(is.na(Footprint_2018))
-eo %>% 
-  select(Country, Biocapacity_2017) %>% 
-  filter(is.na(Biocapacity_2017))
-eo %>% 
-  select(Country, Footprint_2017) %>% 
-  filter(is.na(Footprint_2017))
+
 eo %>% 
   select(Country, Population_2018) %>% 
   filter(is.na(Population_2018))
 eo %>% 
   select(Country, SustainPop_2018) %>% 
   filter(is.na(SustainPop_2018))
-eo %>% 
-  select(Country, Population_2017) %>% 
-  filter(is.na(Population_2017))
-eo %>% 
-  select(Country, SustainPop_2017) %>% 
-  filter(is.na(SustainPop_2017))
+
 eo %>% 
   select(Country, Growth_rate_pop_2020) %>% 
   filter(is.na(Growth_rate_pop_2020))
@@ -145,18 +92,13 @@ eo %>%
 eo %>% 
   select(Country, GDP_pp_2020) %>% 
   filter(is.na(GDP_pp_2020))
+
 eo %>% 
   select(Country, Rank_sustain_2020) %>% 
   filter(is.na(Rank_sustain_2020))
 eo %>% 
   select(Country, Rank_sustain_2020) %>% 
   filter(Rank_sustain_2020 == 'NA')
-
-eo <- eo %>% 
-  select(iso2c, Country, iso3c,
-         Biocapacity_2018, Footprint_2018, Population_2018, SustainPop_2018,
-         Growth_rate_pop_2020, Modern_contraception_2020, 
-         Species_threat_2021_2, GDP_pp_2020, Rank_sustain_2020)
 
 # iso3c add
 eo$iso3c <- countrycode(sourcevar = eo$iso2c, 
@@ -168,7 +110,7 @@ eo$Continent <- countrycode(sourcevar = eo$iso2c,
                             destination = "continent")
 
 # EO so far saved
-saveRDS(eo, "data/eo_before_photos_25Apr2022.rds")
+saveRDS(eo, "data/eo_before_photos_27Apr2022.rds")
 
 # collect ID from df
 # df9 in eo_html newer than eo_data
