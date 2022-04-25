@@ -50,16 +50,17 @@ names(eoData)[grepl('SP.POP.GROW', names(eoData))] <- 'Growth_rate_pop_2020'
 names(eoData)[grepl('SP.DYN.CONM.ZS', names(eoData))] <- 'Modern_contraception_2020'
 names(eoData)[grepl('Actual Comment', names(eoData))] <- 'Comments'
 
-names(eoData)[3] <- 'Ratio_Biocapacity'
-names(eoData)[4] <- 'Ratio_Footprint'
-names(eoData)[5] <- 'Ratio_Population'
-names(eoData)[6] <- 'Ratio_SustainPop'
+names(eoData)[5] <- 'Ratio_Biocapacity'
+names(eoData)[6] <- 'Ratio_Footprint'
+names(eoData)[7] <- 'Ratio_Population'
+names(eoData)[8] <- 'Ratio_SustainPop'
+names(eoData)[9] <- 'Biocapacity_2018'
+names(eoData)[10] <- 'Footprint_2018'
+names(eoData)[11] <- 'Population_2018'
+names(eoData)[16] <- 'Footprint_2017'
+names(eoData)[17] <- 'Population_2017'
 
-names(eoData)[7] <- 'Biocapacity_2018'
-names(eoData)[8] <- 'Footprint_2018'
-names(eoData)[9] <- 'Population_2018'
-names(eoData)[12] <- 'Footprint_2017'
-names(eoData)[13] <- 'Population_2017'
+saveRDS(eoData, "data/eoData_25Apr2022.rds")
 
 eo <- eoData %>% 
   select(iso2c, Country,
@@ -150,6 +151,12 @@ eo %>%
   select(Country, Rank_sustain_2020) %>% 
   filter(Rank_sustain_2020 == 'NA')
 
+eo <- eo %>% 
+  select(iso2c, Country, iso3c,
+         Biocapacity_2018, Footprint_2018, Population_2018, SustainPop_2018,
+         Growth_rate_pop_2020, Modern_contraception_2020, 
+         Species_threat_2021_2, GDP_pp_2020, Rank_sustain_2020)
+
 # iso3c add
 eo$iso3c <- countrycode(sourcevar = eo$iso2c, 
                         origin = "iso2c",
@@ -158,6 +165,9 @@ eo$iso3c <- countrycode(sourcevar = eo$iso2c,
 eo$Continent <- countrycode(sourcevar = eo$iso2c, 
                             origin = "iso2c",
                             destination = "continent")
+
+# EO so far saved
+saveRDS(eo, "data/eo_before_photos_25Apr2022.rds")
 
 # collect ID from df
 # df9 in eo_html newer than eo_data
@@ -175,7 +185,7 @@ eop$Freq[is.na(eop$Freq)] <- 0
 eop$GDP_pp_2020 <- round(eop$GDP_pp_2020, 0)
 eop <- eop[order(eop$Country),]
 
-saveRDS(eop, 'data/eo_April_2022.rds')
+saveRDS(eop, 'data/eop_25April2022.rds')
 
 # i <- sapply(imgPerCountry, is.factor)
 # imgPerCountry[i] <- lapply(imgPerCountry[i], as.character)
