@@ -9,7 +9,7 @@ library(stringi)
 # sheet_names(ss = eo_id)
 # eoData <- read_sheet(ss = eo_id, sheet ='Main')
 
-original_xls <- "data/Country Data .xlsx"
+original_xls <- "data/Country Data.xlsx"
 
 column_names <- read_excel(original_xls, 
                            sheet = "Main", 

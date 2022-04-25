@@ -27,8 +27,7 @@ join_WBpop2018 <- eo %>%
 gsheet_WBpop2018 <- join_WBpop2018 %>%
   select(iso2c, SP.POP.TOTL, Country, country) 
 
-library(xlsx)
-write.xlsx(df, 'WBpop2018.xlsx', sheetName = "WBpop2018")
+write_csv(gsheet_WBpop2018, "WBpop2018.csv")
            
 WBpop2018_test_id <- '1Iq6MK-W28ReCYvtGORvKA65fwhk2HuhhkKXtz4z2CWk'
 
