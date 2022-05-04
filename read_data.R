@@ -26,6 +26,13 @@ eo_data_import[ eo_data_import == "#VALUE!" ] <- NA
 # remove last 3 rows
 eoData <- head(eo_data_import, -3)
 
+bakeodata <- eoData
+eoData <- eoData %>% 
+  arrange(Country)
+all.equal(eoData, bakeodata)
+# which(eoData[,2] != bakeodata[,2]) # 157 158 159 169 170
+identical(eoData, bakeodata)
+
 # column names make shorter
 # finding by old name rather than colnum
 names(eoData)[grepl('GDP per capita', names(eoData))] <- 'GDP_pp_2020'
@@ -128,8 +135,14 @@ eop$Freq[is.na(eop$Freq)] <- 0
 eop$GDP_pp_2020 <- round(eop$GDP_pp_2020, 0)
 eop <- eop[order(eop$Country),]
 
+eop <- eop %>% 
+  select(iso2c, iso3c, Country, Freq, Continent, 
+         Population_2018, SustainPop_2018,
+         Growth_rate_pop_2020, Modern_contraception_2020, 
+         Species_threat_2021_2, GDP_pp_2020, Rank_sustain_2020)
+
 # is it a problem if earlier df was iso2c sorted instead of Country?
-saveRDS(eop, 'data/eop_25April2022.rds')
+saveRDS(eop, 'data/eop_26April2022.rds')
 
 # i <- sapply(imgPerCountry, is.factor)
 # imgPerCountry[i] <- lapply(imgPerCountry[i], as.character)
