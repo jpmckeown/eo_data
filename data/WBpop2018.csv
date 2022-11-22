@@ -1,0 +1,186 @@
+iso2c,SP.POP.TOTL,Country,country
+AF,37171922,Afghanistan,Afghanistan
+AL,2866376,Albania,Albania
+DZ,42228415,Algeria,Algeria
+AO,30809787,Angola,Angola
+AG,96282,Antigua & Barbuda,Antigua and Barbuda
+AR,44494502,Argentina,Argentina
+AM,2951741,Armenia,Armenia
+AU,24982688,Australia,Australia
+AT,8840521,Austria,Austria
+AZ,9939771,Azerbaijan,Azerbaijan
+BS,385635,Bahamas,"Bahamas, The"
+BH,1569440,Bahrain,Bahrain
+BD,161376713,Bangladesh,Bangladesh
+BB,286640,Barbados,Barbados
+BY,9438785,Belarus,Belarus
+BE,11427054,Belgium,Belgium
+BZ,383071,Belize,Belize
+BJ,11485035,Benin,Benin
+BT,754396,Bhutan,Bhutan
+BO,11353140,Bolivia,Bolivia
+BA,3323929,Bosnia & Herzegovina,Bosnia and Herzegovina
+BW,2254067,Botswana,Botswana
+BR,209469320,Brazil,Brazil
+BN,428960,Brunei,Brunei Darussalam
+BG,7025037,Bulgaria,Bulgaria
+BF,19751466,Burkina Faso,Burkina Faso
+BI,11175379,Burundi,Burundi
+CV,543764,Cabo Verde,Cabo Verde
+KH,16249795,Cambodia,Cambodia
+CM,25216261,Cameroon,Cameroon
+CA,37065178,Canada,Canada
+CF,4666375,Central African Republic,Central African Republic
+TD,15477727,Chad,Chad
+CL,18729166,Chile,Chile
+CN,1402760000,China,China
+CO,49661056,Colombia,Colombia
+KM,832322,Comoros,Comoros
+CR,4999443,Costa Rica,Costa Rica
+HR,4087843,Croatia,Croatia
+CU,11338146,Cuba,Cuba
+CW,159336,Curacao,Curacao
+CY,1189262,Cyprus,Cyprus
+CZ,10629928,Czech Republic / Czechia,Czech Republic
+CD,84068092,Democratic Republic of The Congo,"Congo, Dem. Rep."
+DK,5793636,Denmark,Denmark
+DJ,958923,Djibouti,Djibouti
+DM,71626,Dominica,Dominica
+DO,10627147,Dominican Republic,Dominican Republic
+TL,1267975,East Timor,Timor-Leste
+EC,17084359,Ecuador,Ecuador
+EG,98423602,Egypt,"Egypt, Arab Rep."
+SV,6420740,El Salvador,El Salvador
+GQ,1308966,Equatorial Guinea,Equatorial Guinea
+ER,NA,Eritrea,Eritrea
+EE,1321977,Estonia,Estonia
+SZ,1136274,Eswatini,Eswatini
+ET,109224410,Ethiopia,Ethiopia
+FJ,883490,Fiji,Fiji
+FI,5515525,Finland,Finland
+FR,67101930,France,France
+GF,NA,French Guiana,NA
+GA,2119275,Gabon,Gabon
+GM,2280092,Gambia,"Gambia, The"
+GE,3726549,Georgia,Georgia
+DE,82905782,Germany,Germany
+GH,29767108,Ghana,Ghana
+GR,10732882,Greece,Greece
+GD,111449,Grenada,Grenada
+GT,16346950,Guatemala,Guatemala
+GN,12414292,Guinea,Guinea
+GW,1874304,Guinea Bissau,Guinea-Bissau
+GY,779007,Guyana,Guyana
+HT,11123183,Haiti,Haiti
+HN,9587523,Honduras,Honduras
+HU,9775564,Hungary,Hungary
+IS,352721,Iceland,Iceland
+IN,1352642283,India,India
+ID,267670549,Indonesia,Indonesia
+IR,81800204,Iran,"Iran, Islamic Rep."
+IQ,38433604,Iraq,Iraq
+IE,4867316,Ireland,Ireland
+IL,8882800,Israel,Israel
+IT,60421760,Italy,Italy
+CI,25069226,Ivory Coast,Cote d'Ivoire
+JM,2934853,Jamaica,Jamaica
+JP,126529100,Japan,Japan
+JO,9965322,Jordan,Jordan
+KZ,18276452,Kazakhstan,Kazakhstan
+KE,51392570,Kenya,Kenya
+KW,4137314,Kuwait,Kuwait
+KG,6322800,Kyrgyzstan,Kyrgyz Republic
+LA,7061498,Laos,Lao PDR
+LV,1927174,Latvia,Latvia
+LB,6859408,Lebanon,Lebanon
+LS,2108327,Lesotho,Lesotho
+LR,4818976,Liberia,Liberia
+LY,6678565,Libya,Libya
+LI,37918,Liechtenstein,Liechtenstein
+LT,2801543,Lithuania,Lithuania
+LU,607950,Luxemborg,Luxembourg
+MG,26262313,Madagascar,Madagascar
+MW,18143215,Malawi,Malawi
+MY,31528033,Malaysia,Malaysia
+MV,515704,Maldives,Maldives
+ML,19077755,Mali,Mali
+MT,484630,Malta,Malta
+MR,4403312,Mauritania,Mauritania
+MU,1265303,Mauritius,Mauritius
+MX,126190782,Mexico,Mexico
+MD,2708214,Moldova,Moldova
+MC,38682,Monaco,Monaco
+MN,3170214,Mongolia,Mongolia
+ME,622227,Montenegro,Montenegro
+MA,36029089,Morocco,Morocco
+MZ,29496009,Mozambique,Mozambique
+MM,53708318,Myanmar,Myanmar
+"NA",2448300,Namibia,Namibia
+NP,28095712,Nepal,Nepal
+NL,17231624,Netherlands,Netherlands
+NZ,4900600,New Zealand,New Zealand
+NI,6465502,Nicaragua,Nicaragua
+NE,22442831,Niger,Niger
+NG,195874685,Nigeria,Nigeria
+KP,25549606,North Korea,"Korea, Dem. People's Rep."
+MK,2076217,North Macedonia,North Macedonia
+NO,5311916,Norway,Norway
+OM,4829476,Oman,Oman
+PK,212228288,Pakistan,Pakistan
+PA,4176868,Panama,Panama
+PG,8606324,Papua New Guinea,Papua New Guinea
+PY,6956069,Paraguay,Paraguay
+PE,31989265,Peru,Peru
+PH,106651394,Philippines,Philippines
+PL,37974750,Poland,Poland
+PT,10283822,Portugal,Portugal
+QA,2781682,Qatar,Qatar
+CG,5244363,Republic of the Congo,"Congo, Rep."
+RO,19473970,Romania,Romania
+RU,144477859,Russia,Russian Federation
+RW,12301969,Rwanda,Rwanda
+ST,211032,Sao Tome and Principe,Sao Tome and Principe
+SA,33702757,Saudi Arabia,Saudi Arabia
+SN,15854324,Senegal,Senegal
+RS,6982604,Serbia,Serbia
+SC,96762,Seychelles,Seychelles
+SL,7650149,Sierra Leone,Sierra Leone
+SG,5638676,Singapore,Singapore
+SK,5446771,Slovakia,Slovak Republic
+SI,2073894,Slovenia,Slovenia
+SB,652856,Solomon Islands,Solomon Islands
+SO,15008225,Somalia,Somalia
+ZA,57792520,South Africa,South Africa
+KR,51606633,South Korea,"Korea, Rep."
+SS,10975924,South Sudan,South Sudan
+ES,46797754,Spain,Spain
+LK,21670000,Sri Lanka,Sri Lanka
+KN,52438,St. Kitts and Nevis,St. Kitts and Nevis
+LC,181890,St. Lucia,St. Lucia
+VC,110210,St Vincent and the Grenadines,St. Vincent and the Grenadines
+SD,41801532,Sudan,Sudan
+SR,575987,Suriname,Suriname
+SE,10175214,Sweden,Sweden
+CH,8514329,Switzerland,Switzerland
+SY,16945062,Syria,Syrian Arab Republic
+TW,NA,Taiwan,NA
+TJ,9100847,Tajikistan,Tajikistan
+TZ,56313444,Tanzania,Tanzania
+TH,69428454,Thailand,Thailand
+TT,1389841,Trinidad & Tobago,Trinidad and Tobago
+TG,7889095,Togo,Togo
+TN,11565203,Tunisia,Tunisia
+TR,82340090,Turkey,Turkey
+TM,5850902,Turkmenistan,Turkmenistan
+UG,42729032,Uganda,Uganda
+UA,44622518,Ukraine,Ukraine
+AE,9630966,United Arab Emirates,United Arab Emirates
+GB,66460344,United Kingdom,United Kingdom
+US,326838199,United States of America,United States
+UY,3449290,Uruguay,Uruguay
+UZ,32956100,Uzbekistan,Uzbekistan
+VE,28887117,Venezuela,"Venezuela, RB"
+VN,95545959,Vietnam,Vietnam
+YE,28498683,Yemen,"Yemen, Rep."
+ZM,17351714,Zambia,Zambia
+ZW,14438812,Zimbabwe,Zimbabwe
