@@ -9,6 +9,12 @@ library(stringi)
 # sheet_names(ss = eo_id)
 # eoData <- read_sheet(ss = eo_id, sheet ='Main')
 
+# annual updates
+# GFN data 2018, no point getting newer Pop or Pop growth
+# threatened species; GDP
+# population SP.POP.TOTL world bank, was 2018
+# 
+
 original_xls <- "data/Country Data.xlsx"
 
 column_names <- read_excel(original_xls, 
@@ -142,7 +148,7 @@ eop <- eop %>%
          Species_threat_2021_2, GDP_pp_2020, Rank_sustain_2020)
 
 # is it a problem if earlier df was iso2c sorted instead of Country?
-saveRDS(eop, 'data/eop_26April2022.rds')
+saveRDS(eop, 'data/eop_10_Dec_2022.rds')
 
 # i <- sapply(imgPerCountry, is.factor)
 # imgPerCountry[i] <- lapply(imgPerCountry[i], as.character)
