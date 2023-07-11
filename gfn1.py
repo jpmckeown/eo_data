@@ -1,8 +1,9 @@
 password = "1Bv9rtTR2b57O9PtaoH2CHimi6KDq9gk53SM552O12qNSBN6a7IK"
 user = "any"
-endpoint = "https://api.footprintnetwork.org/v1/types"
+url = "https://api.footprintnetwork.org/v1/countries"
 
 import requests
+
 # auth = 
 # response = requests.get(endpoint).json()
 
