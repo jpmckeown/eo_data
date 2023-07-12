@@ -26,7 +26,24 @@ Biocapacity (GFN 2019)
 Ecological Footprint (GFN 2019)
 Population (2022 from WB SP.POP.TOTL)
 
-```{r}
+```{r, stem}
+# make stem frame of Countries
+eo_temp <- readRDS('data/eop_26April2022.rds')
+eo_stem <- eo_temp %>%
+  rename(Photos = Freq) %>% 
+  relocate(Country, Continent) %>%
+  relocate(Photos, .after = Continent) %>% 
+  select(Country:iso3c) %>% 
+  arrange(Country) # no effect as rds already sorted by country name
 
+# official names of countries
+eo_stem$Country[eo_stem$Country == "Democratic Republic of The Congo"] = "Democratic Republic of the Congo"
+eo_stem$Country[eo_stem$Country == "Czech Republic / Czechia"] = "Czech Republic"
+eo_stem$Country[eo_stem$Country == "Bosnia & Herzegovina"] = "Bosnia and Herzegovina"
+eo_stem$Country[eo_stem$Country == "Trinidad & Tobago"] = "Trinidad and Tobago"
+eo_stem$Country[eo_stem$Country == "Antigua & Barbuda"] = "Antigua and Barbuda"
+eo_stem$Country[eo_stem$Country == "St. Kitts and Nevis"] = "Saint Kitts and Nevis"
+eo_stem$Country[eo_stem$Country == "St. Lucia"] = "Saint Lucia"
+eo_stem$Country[eo_stem$Country == "St Vincent and the Grenadines"] = "Saint Vincent and the Grenadines"
 ```
 
