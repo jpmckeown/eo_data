@@ -31,13 +31,27 @@ combine_df <- bind_cols(biocapacity, footprint, BC_total, EFC_total)
 
 write_csv(combine_df, 'gfn_bcpc_efpc_bc_ef.csv')
 
-# merge GFN population
-#
+# delete surplus columns and rename generaic 'value' heading
 GFN_population <- population_df %>%
   rename(population  = value) %>%
   select(isoa2, population)
 
-GFN_2019 <- merge(combine_df, GFN_population, by = 'isoa2')
+# merge GFN population
+GFN_temp <- merge(combine_df, GFN_population, by = 'isoa2')
+
+# polish for viewing
+GFN_2019 <- GFN_temp %>%
+  rename(iso2c = isoa2) %>%
+  rename(GFN_internal_code = countryCode) %>%
+  rename(biocapacity_pp = biocapacity) %>%
+  rename(footprint_pp = footprintConsumption) %>%
+  rename(biocapacity_total = BC_total) %>%
+  rename(footprint_total = EFC_total) %>%
+  relocate(GFN_internal_code, .before = iso2c) %>%
+  relocate(population, .after = footprint_pp)
+
+# export for EO gsheet (still has regional rows)
+write_csv(GFN_2019, 'GFN_2019.csv')
 
 # test GFN population
 Brazil_population <- population_df[['value']][[20]]
