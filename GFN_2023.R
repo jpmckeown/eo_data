@@ -31,6 +31,14 @@ combine_df <- bind_cols(biocapacity, footprint, BC_total, EFC_total)
 
 write_csv(combine_df, 'gfn_bcpc_efpc_bc_ef.csv')
 
+# merge GFN population
+#
+GFN_population <- population_df %>%
+  rename(population  = value) %>%
+  select(isoa2, population)
+
+GFN_2019 <- merge(combine_df, GFN_population, by = 'isoa2')
+
 # test GFN population
 Brazil_population <- population_df[['value']][[20]]
 Brazil_total_bio <- biocapacity_total_df[['value']][[20]]
