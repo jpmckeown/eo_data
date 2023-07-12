@@ -1,0 +1,32 @@
+---
+title: "Earth Overshoot data 2023@
+author: "JP McKeown"
+output: "html_document"
+---
+
+Data fields for dashboard display: 
+Country name,
+Sustainability Grade (revised by EO),
+Population (2019 from GFN),
+Sustainable maximum population (calculated as biocapacity/footprint),
+Contraception (most recent Modern methods contraceptive prevalence % WB SP.DYN.CONM.ZS),
+Species threatened (most recent quarterly),
+Population growth rate (most recent from WB SP.POP.GROW),
+GDP per person (most recent from WB NY.GDP.PCAP.CD),
+Comment (revised by EO).
+
+Data needed for calculation or processing:
+iso3c
+Biocapacity per person (GFN 2019)
+Ecological Footprint per person (GFN 2019)
+
+Other national data fields available:
+iso2c
+Biocapacity (GFN 2019)
+Ecological Footprint (GFN 2019)
+Population (2022 from WB SP.POP.TOTL)
+
+```{r}
+
+```
+
