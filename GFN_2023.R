@@ -31,6 +31,20 @@ combine_df <- bind_cols(biocapacity, footprint, BC_total, EFC_total)
 
 write_csv(combine_df, 'gfn_bcpc_efpc_bc_ef.csv')
 
+# test GFN population
+Brazil_population <- population_df[['value']][[20]]
+Brazil_total_bio <- biocapacity_total_df[['value']][[20]]
+Brazil_total_efc <- footprint_total_df[['value']][[20]]
+Brazil_calculate_biopc <- Brazil_total_bio / Brazil_population
+Brazil_bio_pc <- biocapacity_df[['value']][[20]]
+Brazil_efc_pc <- footprint_df[['value']][[20]]
+print(paste("Calculate bio per person", Brazil_calculate_biopc))
+print(paste("GFN data bio per person", Brazil_bio_pc))
+if(Brazil_calculate_biopc > Brazil_bio_pc * 1.001 || Brazil_calculate_biopc < Brazil_bio_pc / 1.001) {
+  print("Problem mismatch?")
+} else {
+  print("Close enough")
+}
 
 # library("httr")
 # url <- modify_url("http://api.footprintnetwork.org", path = "v1/countries")
