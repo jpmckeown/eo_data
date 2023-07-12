@@ -6,13 +6,13 @@ output: "html_document"
 
 Data fields for dashboard display: 
 Country name,
-Sustainability Grade (revised by EO),
 Population (2019 from GFN),
 Sustainable maximum population (calculated as biocapacity/footprint),
 Contraception (most recent Modern methods contraceptive prevalence % WB SP.DYN.CONM.ZS),
 Species threatened (most recent quarterly),
 Population growth rate (most recent from WB SP.POP.GROW),
 GDP per person (most recent from WB NY.GDP.PCAP.CD),
+Sustainability Grade (revised by EO),
 Comment (revised by EO).
 
 Data needed for calculation or processing:
@@ -45,5 +45,29 @@ eo_stem$Country[eo_stem$Country == "Antigua & Barbuda"] = "Antigua and Barbuda"
 eo_stem$Country[eo_stem$Country == "St. Kitts and Nevis"] = "Saint Kitts and Nevis"
 eo_stem$Country[eo_stem$Country == "St. Lucia"] = "Saint Lucia"
 eo_stem$Country[eo_stem$Country == "St Vincent and the Grenadines"] = "Saint Vincent and the Grenadines"
+```
+
+Merge data from Global Footprint Network: biocapacity, footprint, and population.
+```{r, add GFN}
+# GFN_2019 <- read_csv("data/GFN_2019.csv")
+eo_2023_gfn <- eo_stem %>% 
+  left_join(GFN_2019, by = "iso2c") %>% 
+  rename(Biocapacity_pp_2019 = biocapacity_pp) %>% 
+  rename(Footprint_pp_2019 = footprint_pp) %>%
+  rename(Population_gfn_2019 = population) %>% 
+  select(Country:iso3c, Biocapacity_pp_2019, Footprint_pp_2019, Population_gfn_2019)
+```
+
+Calculate maximum sustainable population
+```{r, sustainable}
+eo_2023 <- eo_2023_gfn %>% 
+  mutate(Sustainable_pop = floor(Biocapacity_pp_2019 / Footprint_pp_2019 * Population_gfn_2019))
+
+```
+
+Interim export for "Country Data" googlesheet
+```{r}
+# Country Comments are now in a permanent separate tab on googlesheet
+write_csv(eo_2023, "data/eo_gfn_maxpop_July_2023.csv")
 ```
 
