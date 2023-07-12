@@ -3,11 +3,13 @@
 library(jsonlite)
 library(tidyverse)
 
-biocapacity_lists <- read_json("GFN_biocapacitypc_2019_all.json")
-footprint <- read_json("GFN_footprintconspc_2019_all.json")
-
+population_df <- fromJSON("GFN_population_usedin2019_all.json")
+  
 biocapacity_df <- fromJSON("GFN_biocapacitypc_2019_all.json")
 footprint_df <- fromJSON("GFN_footprintconspc_2019_all.json")
+
+biocapacity_total_df <- fromJSON("GFN_BCtot_2019_all.json")
+footprint_total_df <- fromJSON("GFN_EFCtot_2019_all.json")
 
 biocapacity <- biocapacity_df %>%
   rename(biocapacity = value) %>%
@@ -17,13 +19,18 @@ footprint <- footprint_df %>%
   rename(footprintConsumption = value) %>%
   select(footprintConsumption)
 
-combine_df <- bind_cols(biocapacity, footprint)
+BC_total <- biocapacity_total_df %>%
+  rename(BC_total = value) %>%
+  select(BC_total)
 
-# df <- fromJSON(json_data) %>%
-#    select(shortName, isoa2, biocapacity = value[record == 'BiocapPerCap'], footprint = value[record == 'EFConsPerCap'])
+EFC_total <- footprint_total_df %>%
+  rename(EFC_total = value) %>%
+  select(EFC_total)
 
+combine_df <- bind_cols(biocapacity, footprint, BC_total, EFC_total)
 
-json_1 <- '[{"year": 2019, "shortName": "Armenia", "countryCode": 1, "countryName": "Armenia", "isoa2": "AM", "score": "3A", "record": "EFConsPerCap", "cropLand": 0.599779043533126, "grazingLand": 0.242834133918476, "forestLand": 0.280242107718304, "fishingGround": 0.00126937394398479, "builtupLand": 0.0466074265894613, "carbon": 0.931397981544185, "value": 2.10213006724754}, {"year": 2019, "shortName": "Armenia", "countryCode": 1, "countryName": "Armenia", "isoa2": "AM", "score": "3A", "record": "BiocapPerCap", "cropLand": 0.345274171709162, "grazingLand": 0.278954644418481, "forestLand": 0.0968027565779619, "fishingGround": 0.0166128528804626, "builtupLand": 0.0466074265894613, "carbon": 0.0, "value": 0.784251852175529}]'
+write_csv(combine_df, 'gfn_bcpc_efpc_bc_ef.csv')
+
 
 # library("httr")
 # url <- modify_url("http://api.footprintnetwork.org", path = "v1/countries")
