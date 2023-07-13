@@ -1,0 +1,11 @@
+```{r}
+# install.packages("wbstats")
+library(wbstats)
+
+```
+
+```{r}
+wbcountries()
+wb_indicators()
+```
+

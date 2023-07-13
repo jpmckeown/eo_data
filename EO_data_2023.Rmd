@@ -6,7 +6,7 @@ output: "html_document"
 
 ## Data fields for dashboard display: 
 Country name,
-Population (2019 from GFN),
+Population (2019 from GFN; or most recent?),
 Sustainable maximum population (calculated as biocapacity/footprint),
 Contraception (most recent Modern methods contraceptive prevalence % WB SP.DYN.CONM.ZS),
 Species threatened (most recent quarterly),
@@ -185,7 +185,32 @@ sum(is.na(pop_2021$SP.POP.GROW))
 
 head(popgrow_2022)
 ```
-Merge into EO country list data
+
+Contraception, prevalence % modern methods
+```{r, contraception}
+tmp_contracept <- WDI(
+  country = 'all',
+  indicator = 'SP.DYN.CONM.ZS',
+  start = 1984,
+  end = 2022,
+  extra = FALSE,
+  cache = NULL,
+  latest = NULL,
+  language = 'en'
+)
+sum(is.na(tmp_contracept$iso3c)) # =0
+
+contraception <- tmp_contracept %>%
+  select(iso3c, year, SP.DYN.CONM.ZS, country) %>% 
+  group_by(iso3c) %>% 
+  filter(!is.na(SP.DYN.CONM.ZS)) %>% 
+  slice_max(year)
+  
+head(contraception)
+```
+
+
+Merge pop growth rate % into EO country list data
 ```{r}
 eo_GFN_tmp <- eo_2023
 eo_2023 <- eo_GFN_tmp %>% 
