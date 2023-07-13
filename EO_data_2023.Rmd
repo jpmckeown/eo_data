@@ -26,6 +26,15 @@ Biocapacity (GFN 2019)
 Ecological Footprint (GFN 2019)
 Population (2022 from WB SP.POP.TOTL)
 
+```{r, setup}
+library(tidyverse)
+library(countrycode)
+library(devtools)
+options(timeout = 600)
+install_github("PPgp/wpp2022")
+library(WDI)
+```
+
 ```{r, stem}
 # make stem frame of Countries
 eo_temp <- readRDS('data/eop_26April2022.rds')
@@ -69,5 +78,51 @@ Interim export for "Country Data" googlesheet
 ```{r}
 # Country Comments are now in a permanent separate tab on googlesheet
 write_csv(eo_2023, "data/eo_gfn_maxpop_July_2023.csv")
+```
+
+World Bank data
+
+Population Growth Rate, most recent
+```{r, popgrowth}
+# recent year and see if complete
+popgrow_2022 <- WDI(
+  country = 'all',
+  indicator = 'SP.POP.GROW',
+  start = 2022,
+  end = 2022,
+  extra = FALSE,
+  cache = NULL,
+  latest = NULL,
+  language = 'en'
+)
+
+# count missing rows = 0
+sum(is.na(pop_2021$SP.POP.GROW))
+# if>0, identify missing countries
+
+head(popgrow_2022)
+```
+Merge into EO country list data
+```{r}
+eo_GFN_tmp <- eo_2023
+eo_2023 <- eo_GFN_tmp %>% 
+  left_join(popgrow_2022, by = "iso3c") %>% 
+  rename(Growth_rate_pop = SP.POP.GROW) %>% 
+  select(Country:Sustainable_pop, Growth_rate_pop)
+head(eo_2023)
+```
+
+UN WPP
+```{r}
+library(wpp2022)
+data(popldt)
+```
+
+Taiwan data
+https://eng.stat.gov.tw/Point.aspx?sid=t.9&n=4208&sms=11713
+```{r, Taiwan}
+population_Taiwan <- 23361084
+GDP_pp_Taiwan <- 32474
+
 ```
 
