@@ -65,6 +65,8 @@ eo_2023_gfn <- eo_stem %>%
   rename(Footprint_pp_2019 = footprint_pp) %>%
   rename(Population_gfn_2019 = population) %>% 
   select(Country:iso3c, Biocapacity_pp_2019, Footprint_pp_2019, Population_gfn_2019)
+# check France total population
+eo_2023_gfn[eo_2023_gfn$iso3c == "FRA",] # 64,436,800
 ```
 
 Calculate maximum sustainable population
@@ -102,10 +104,66 @@ sum(is.na(threat$iso3c)) # =1 "Disputed territory"
 
 ## United Nations data
 WPP2022 (Population) includes Taiwan
+```{r}
+library(wpp2022)
+data(pop1dt)
+head(pop1dt)
+pop21 <- pop1dt %>% 
+  filter(year == 2021) %>%
+  select(country_code, name, pop)
+pop21$iso3c = countrycode(sourcevar = pop21$country_code,
+                          origin = "iso3n",
+                          destination = "iso3c")
+pop21 <- pop21 %>% 
+  filter(!is.na(iso3c))
+# on inspection, only regions are Null iso3c (and Kosovo)
 
-
+pop21[pop21$iso3c == "FRA",] # 64,560,540
+head(pop21)
+```
 
 ## World Bank data
+
+Population total (compare with UN WPP)
+```{r}
+WB_pop_2021 <- WDI(
+  country = 'all',
+  indicator = 'SP.POP.TOTL',
+  start = 2021,
+  end = 2021,
+  extra = FALSE,
+  cache = NULL,
+  latest = NULL,
+  language = 'en'
+)
+
+# count missing rows = 0
+sum(is.na(WB_pop_2021$SP.POP.TOTL))
+# if>0, identify missing countries # =1 "Unclassified"
+
+WB_pop_2021[WB_pop_2021$iso3c == "FRA",] # 67,749,632
+head(WB_pop_2021)
+```
+
+```{r}
+WB_pop_2022 <- WDI(
+  country = 'all',
+  indicator = 'SP.POP.TOTL',
+  start = 2022,
+  end = 2022,
+  extra = FALSE,
+  cache = NULL,
+  latest = NULL,
+  language = 'en'
+)
+
+# count missing rows = 0
+sum(is.na(WB_pop_2022$SP.POP.TOTL))
+# if>0, identify missing countries # =1 "Unclassified"
+
+WB_pop_2022[WB_pop_2022$iso3c == "FRA",] # 67,935,660
+head(WB_pop_2022)
+```
 
 Population Growth Rate, most recent
 ```{r, popgrowth}
@@ -137,16 +195,7 @@ eo_2023 <- eo_GFN_tmp %>%
 head(eo_2023)
 ```
 
-UN WPP
-```{r}
-library(wpp2022)
-data(pop1dt)
-head(pop1dt)
-pop22 <- pop1dt %>% 
-  filter(year == 2021) %>% 
-  select(country_code, name, pop)
-head(pop22)
-```
+
 
 Taiwan data
 https://eng.stat.gov.tw/Point.aspx?sid=t.9&n=4208&sms=11713
