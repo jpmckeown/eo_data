@@ -107,19 +107,24 @@ WPP2022 (Population) includes Taiwan
 ```{r}
 library(wpp2022)
 data(pop1dt)
-head(pop1dt)
-pop21 <- pop1dt %>% 
+
+pop21 <- pop1dt %>%
+  rename(Population = pop) %>% 
   filter(year == 2021) %>%
-  select(country_code, name, pop)
+  mutate(Population = Population * 1000) %>% 
+  select(country_code, name, Population)
+
 pop21$iso3c = countrycode(sourcevar = pop21$country_code,
                           origin = "iso3n",
                           destination = "iso3c")
-pop21 <- pop21 %>% 
+UN_population_2021 <- pop21 %>% 
   filter(!is.na(iso3c))
 # on inspection, only regions are Null iso3c (and Kosovo)
 
-pop21[pop21$iso3c == "FRA",] # 64,560,540
-head(pop21)
+sum(is.na(UN_population_2021$Population)) # 0, all countries have 2021 data
+
+UN_population_2021[UN_population_2021$iso3c == "FRA",] # 64,560,540
+head(UN_population_2021)
 ```
 
 ## World Bank data
