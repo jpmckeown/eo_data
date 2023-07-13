@@ -209,6 +209,29 @@ contraception <- tmp_contracept %>%
 head(contraception)
 ```
 
+GDP per capita
+```{r, GDP}
+tmp_gdp <- WDI(
+  country = 'all',
+  indicator = 'NY.GDP.PCAP.CD',
+  start = 2011,
+  end = 2022,
+  extra = FALSE,
+  cache = NULL,
+  latest = NULL,
+  language = 'en'
+)
+sum(is.na(tmp_contracept$iso3c)) # =0
+
+gdp_pp_2022 <- tmp_gdp %>%
+  rename(Year_gdp = year) %>% 
+  select(iso3c, Year_gdp, NY.GDP.PCAP.CD, country) %>% 
+  group_by(iso3c) %>% 
+  filter(!is.na(NY.GDP.PCAP.CD)) %>% 
+  slice_max(Year_gdp)
+  
+head(gdp_pp_2022)
+```
 
 Merge pop growth rate % into EO country list data
 ```{r}
