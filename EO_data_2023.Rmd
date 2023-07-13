@@ -277,30 +277,37 @@ gdp_pp_2022 <- tmp_gdp %>%
 head(gdp_pp_2022)
 ```
 
-## Merge new data into Countries list
+## Merge new data into Countries
+
+### Dataframes to be merged into eo_2023:
 popgrow_2022
 UN_population_2021
 contraception
 gdp_pp_2022
 threat
+TFR_2021
 
 Merge pop growth rate % into EO country list data
 ```{r}
-eo_GFN_tmp <- eo_2023
+# eo_GFN_tmp <- eo_2023
+popgrow_tmp <- popgrow_2022 %>% 
+  select(-iso2c)
+
 eo_2023 <- eo_GFN_tmp %>% 
-  left_join(popgrow_2022, by = "iso3c") %>% 
-  rename(Growth_rate_pop = SP.POP.GROW) %>% 
-  select(Country:Sustainable_pop, Growth_rate_pop)
-head(eo_2023)
+  left_join(popgrow_tmp, by = "iso3c") %>% 
+  rename(Growth_pop_2022 = SP.POP.GROW) %>% 
+  select(Country:Sustainable_pop, Growth_pop_2022)
 ```
 
 Merge UN population 2021
 ```{r}
-eo_rate_tmp <- eo_2023
-eo_2023 <- eo_rate_tmp %>% 
-  left_join(, by = "iso3c") %>% 
-  rename(Growth_rate_pop = SP.POP.GROW) %>% 
-  select(Country:Sustainable_pop, Growth_rate_pop)
+eo_tmp <- eo_2023
+eo_2023 <- eo_tmp %>% 
+  left_join(UN_population_2021, by = "iso3c") %>%
+  rename(Population_UN_2021 = Population)
+  select(Country:Growth_pop_2022, Population_UN_2021)
+eo_2023 <- eo_2023 %>% 
+  select(-c(country_code, name))
 head(eo_2023)
 ```
 
