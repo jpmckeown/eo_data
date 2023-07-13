@@ -103,6 +103,7 @@ sum(is.na(threat$iso3c)) # =1 "Disputed territory"
 ```
 
 ## United Nations data
+
 WPP2022 (Population) includes Taiwan
 ```{r}
 library(wpp2022)
@@ -113,6 +114,44 @@ pop21 <- pop1dt %>%
   filter(year == 2021) %>%
   mutate(Population = Population * 1000) %>% 
   select(country_code, name, Population)
+
+pop21$iso3c = countrycode(sourcevar = pop21$country_code,
+                          origin = "iso3n",
+                          destination = "iso3c")
+UN_population_2021 <- pop21 %>% 
+  filter(!is.na(iso3c))
+# on inspection, only regions are Null iso3c (and Kosovo)
+
+sum(is.na(UN_population_2021$Population)) # 0, all countries have 2021 data
+
+UN_population_2021[UN_population_2021$iso3c == "FRA",] # 64,560,540
+head(UN_population_2021)
+```
+
+Fertility rate (TFR) from UN WPP 2022
+```{r}
+data(tfr1dt)
+
+TFR_2021 <- tfr1dt %>%
+  filter(year == 2021) %>%
+  select(country_code, tfr, name)
+
+TFR_2021$iso3c = countrycode(sourcevar = TFR_2021$country_code,
+                          origin = "iso3n",
+                          destination = "iso3c")
+
+# Inspection shows all countries have 2021 data; filter/slice not needed
+# tfr_latest <- tfr %>%
+#   select(iso3c, year, tfr, name) %>% 
+#   group_by(iso3c) %>% 
+#   filter(!is.na(tfr)) %>% 
+#   slice_max(year)
+```
+
+Population Growth Rate % from UN WPP2022
+```{r}
+grow21 <- pop1dt %>%
+  filter(year == 2021)
 
 pop21$iso3c = countrycode(sourcevar = pop21$country_code,
                           origin = "iso3n",
@@ -238,6 +277,13 @@ gdp_pp_2022 <- tmp_gdp %>%
 head(gdp_pp_2022)
 ```
 
+## Merge new data into Countries list
+popgrow_2022
+UN_population_2021
+contraception
+gdp_pp_2022
+threat
+
 Merge pop growth rate % into EO country list data
 ```{r}
 eo_GFN_tmp <- eo_2023
@@ -248,6 +294,15 @@ eo_2023 <- eo_GFN_tmp %>%
 head(eo_2023)
 ```
 
+Merge UN population 2021
+```{r}
+eo_rate_tmp <- eo_2023
+eo_2023 <- eo_rate_tmp %>% 
+  left_join(, by = "iso3c") %>% 
+  rename(Growth_rate_pop = SP.POP.GROW) %>% 
+  select(Country:Sustainable_pop, Growth_rate_pop)
+head(eo_2023)
+```
 
 
 Taiwan data
