@@ -104,7 +104,9 @@ sum(is.na(threat$iso3c)) # =1 "Disputed territory"
 
 ## United Nations data
 
+https://github.com/PPgp/wpp2022
 WPP2022 (Population) includes Taiwan
+
 ```{r}
 library(wpp2022)
 data(pop1dt)
@@ -136,21 +138,18 @@ TFR_2021 <- tfr1dt %>%
   filter(year == 2021) %>%
   select(country_code, tfr, name)
 
+# maybe remove regions before running countrycode?
+
 TFR_2021$iso3c = countrycode(sourcevar = TFR_2021$country_code,
                           origin = "iso3n",
                           destination = "iso3c")
 
 # Inspection shows all countries have 2021 data; filter/slice not needed
-# tfr_latest <- tfr %>%
-#   select(iso3c, year, tfr, name) %>% 
-#   group_by(iso3c) %>% 
-#   filter(!is.na(tfr)) %>% 
-#   slice_max(year)
 ```
 
 Population Growth Rate % from UN WPP2022
 ```{r}
-grow21 <- pop1dt %>%
+grow21 <- misc1dt %>%
   filter(year == 2021)
 
 pop21$iso3c = countrycode(sourcevar = pop21$country_code,
@@ -265,7 +264,7 @@ tmp_gdp <- WDI(
   latest = NULL,
   language = 'en'
 )
-sum(is.na(tmp_contracept$iso3c)) # =0
+sum(is.na(tmp_gdp$iso3c)) # =0
 
 gdp_pp_2022 <- tmp_gdp %>%
   rename(Year_gdp = year) %>% 
@@ -283,8 +282,8 @@ head(gdp_pp_2022)
 popgrow_2022
 UN_population_2021
 contraception
+threat(speacies)
 gdp_pp_2022
-threat
 TFR_2021
 
 Merge pop growth rate % into EO country list data
@@ -311,6 +310,49 @@ eo_2023 <- eo_2023 %>%
 head(eo_2023)
 ```
 
+####### get UN popgrow data first
+
+# could merge all columns in one codeblock, if incoming prepared beforehand
+Contraception
+```{r}
+# rename contraception columns first
+contracept_mergable <- contraception %>% 
+  rename(Year_contracept = year) %>% 
+  rename(Contraception = SP.DYN.CONM.ZS) %>% 
+  select(iso3c, Contraception, Year_contracept)
+```
+
+Species threatened
+```{r}
+species_mergable <- threat %>% 
+  rename(Species_threat = Species)
+  select(iso3c, Species_2022_2)
+```
+
+GDP per capita
+```{r}
+gdp_mergable <- gdp_pp_2022 %>% 
+  rename(GDP = NY.GDP.PCAP.CD) %>% 
+  select(iso3c, GDP, Year_gdp)
+```
+
+TFR
+```{r}
+tfr_mergable <- TFR_2021 %>% 
+  rename(TFR = tfr) %>% 
+  select(iso3c, TFR)
+```
+
+Merge remaining columns
+```{r}
+eo_tmp_afterPgr <- eo_2023
+eo_2023 <- eo_tmp_afterPgr %>% 
+  left_join(UN_popgrowth_mergable, by = "iso3c") %>%
+  left_join(contracept_mergable, by = "iso3c") %>%
+  left_join(species_mergable, by = "iso3c") %>%  
+  left_join(gdp_mergable, by = "iso3c") %>% 
+  left_join(tfr_mergable, by = "iso3c")  
+```
 
 Taiwan data
 https://eng.stat.gov.tw/Point.aspx?sid=t.9&n=4208&sms=11713
