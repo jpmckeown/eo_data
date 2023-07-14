@@ -317,8 +317,6 @@ eo_2023 <- eo_2023 %>%
 head(eo_2023)
 ```
 
-####### get UN popgrow data first
-
 # could merge all columns in one codeblock, if incoming prepared beforehand
 Contraception
 ```{r}
@@ -331,8 +329,9 @@ contracept_mergable <- contraception %>%
 
 Species threatened
 ```{r}
-species_mergable <- threat %>% 
-  rename(Species_threat = Species)
+species_mergable <- threat %>%
+  filter(!is.na(iso3c)) %>% 
+  rename(Species_2022_2 = Species) %>% 
   select(iso3c, Species_2022_2)
 ```
 
@@ -352,9 +351,9 @@ tfr_mergable <- TFR_2021 %>%
 
 Merge remaining columns
 ```{r}
-eo_tmp_afterPgr <- eo_2023
-eo_2023 <- eo_tmp_afterPgr %>% 
-  left_join(UN_popgrowth_mergable, by = "iso3c") %>%
+eo_tmp_before_merge5 <- eo_2023
+eo_2023 <- eo_tmp_before_merge5 %>% 
+  left_join(UN_PopGrowth_2021, by = "iso3c") %>%
   left_join(contracept_mergable, by = "iso3c") %>%
   left_join(species_mergable, by = "iso3c") %>%  
   left_join(gdp_mergable, by = "iso3c") %>% 
@@ -367,5 +366,10 @@ https://eng.stat.gov.tw/Point.aspx?sid=t.9&n=4208&sms=11713
 population_Taiwan <- 23361084
 GDP_pp_Taiwan <- 32474
 
+```
+
+Archive eo_2023
+```{r}
+saveRDS(eo_2023, file="data/eo_2023.rds")
 ```
 
