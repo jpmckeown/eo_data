@@ -149,20 +149,27 @@ TFR_2021$iso3c = countrycode(sourcevar = TFR_2021$country_code,
 
 Population Growth Rate % from UN WPP2022
 ```{r}
+data(misc1dt)
 grow21 <- misc1dt %>%
-  filter(year == 2021)
+  rename(GrowthRate = growthrate) %>% 
+  filter(year == 2021) %>% 
+  filter(country_code < 900) %>%  # remove continental regions
+  select(country_code, GrowthRate, name)
 
-pop21$iso3c = countrycode(sourcevar = pop21$country_code,
+grow21$iso3c = countrycode(sourcevar = grow21$country_code,
                           origin = "iso3n",
                           destination = "iso3c")
-UN_population_2021 <- pop21 %>% 
-  filter(!is.na(iso3c))
-# on inspection, only regions are Null iso3c (and Kosovo)
 
-sum(is.na(UN_population_2021$Population)) # 0, all countries have 2021 data
+sum(is.na(grow21$GrowthRate)) # 0, all countries have 2021 data
+sum(is.na(grow21$iso3c)) # 1 missing
+grow21[grow21$country_code == 412] # Kosovo not in iso
 
-UN_population_2021[UN_population_2021$iso3c == "FRA",] # 64,560,540
-head(UN_population_2021)
+UN_PopGrowth_2021 <- grow21 %>% 
+  filter(!is.na(iso3c)) %>%
+  rename(PopGrowRate_UN_2021 = GrowthRate) %>% 
+  select(iso3c, PopGrowRate_UN_2021)  
+
+head(UN_PopGrowth_2021)
 ```
 
 ## World Bank data
