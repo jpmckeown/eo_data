@@ -385,6 +385,14 @@ Sustainable_pop_Taiwan <- floor(Biocapacity_pp_Taiwan / Footprint_pp_Taiwan * Po
 
 Taiwan insert data in countries table
 ```{r}
+eo_2023[eo_2023$iso3c == "TWN", "Contraception"] = Contracept_taiwan
+# eo_2023[eo_2023$iso3c == "TWN", "Year_contracept"] = # not supplied
+eo_2023[eo_2023$iso3c == "TWN", "GDP"] = GDP_pp_Taiwan
+eo_2023[eo_2023$iso3c == "TWN", "Year_gdp"] = 2022
+eo_2023[eo_2023$iso3c == "TWN", "Population_gfn_2019"] = Pop_2019_Taiwan
+eo_2023[eo_2023$iso3c == "TWN", "Footprint_pp_2019"] = Footprint_pp_Taiwan
+eo_2023[eo_2023$iso3c == "TWN", "Biocapacity_pp_2019"] = Biocapacity_pp_Taiwan
+eo_2023[eo_2023$iso3c == "TWN", "Sustainable_pop"] = Sustainable_pop_Taiwan
 
 ```
 
