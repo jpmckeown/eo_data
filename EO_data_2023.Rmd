@@ -402,7 +402,21 @@ Archive and export eo_2023
 eo_2023_order <- eo_2023 %>% 
   rename("Population_2019" = "Population_gfn_2019") %>% 
   select("iso3c", "Country", "Photos", "Biocapacity_pp_2019", "Footprint_pp_2019", "Population_2019", "Sustainable_pop", "PopGrowRate_UN_2021", "Population_UN_2021", "Species_2022_2", "Contraception", "Year_contracept",   "GDP", "Year_gdp", "TFR", "Continent", "iso2c")
-saveRDS(eo_2023_order, file="data/eo_2023_order.rds")
-write_csv(eo_2023_order, "data/eo_July_2023.csv")
+
+# re-used after adding back old 2021 Sustainability Grade 
+saveRDS(eo_2023, file="data/eo_2023_oldGrade.rds")
+write_csv(eo_2023, "data/eo_July_2023_oldGrade.csv")
 ```
 
+Sustainability Grade column
+as of July 2023 still the same as in November
+```{r}
+grades <- eop_26April2022 %>% 
+  select(iso3c, Rank_sustain_2020)
+
+eo_2023_beforeGrade <- eo_2023_order # preserve
+
+eo_2023 <- eo_2023_order %>% 
+  left_join(grades, by = "iso3c") %>% 
+  rename(Grade = Rank_sustain_2020)
+```
