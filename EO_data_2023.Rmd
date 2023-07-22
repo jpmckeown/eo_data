@@ -394,7 +394,6 @@ eo_2023[eo_2023$iso3c == "TWN", "Population_gfn_2019"] = Pop_2019_Taiwan
 eo_2023[eo_2023$iso3c == "TWN", "Footprint_pp_2019"] = Footprint_pp_Taiwan
 eo_2023[eo_2023$iso3c == "TWN", "Biocapacity_pp_2019"] = Biocapacity_pp_Taiwan
 eo_2023[eo_2023$iso3c == "TWN", "Sustainable_pop"] = Sustainable_pop_Taiwan
-
 ```
 
 Archive and export eo_2023
@@ -419,10 +418,54 @@ eo_2023 <- eo_2023_order %>%
 
 Merge in World Bank population 2022 and popgrow rate 2022
 ```{r}
-eo_before_WB_pop <- eo_2023
+wbpop2022_mergable <- WB_pop_2022 %>% 
+  rename(Population_WB_2022 = SP.POP.TOTL) %>% 
+  select(iso3c, Population_WB_2022)
+  
+wbpopgrow2022_mergable <- popgrow_2022 %>% 
+  rename(PopGrowRate_WB_2022 = SP.POP.GROW) %>% 
+  select(iso3c, PopGrowRate_WB_2022)
+
+# eo_before_WB_pop <- eo_2023
 eo_2023 <- eo_before_WB_pop %>% 
-  left_join(WB_pop_2022, by = "iso3c") %>%
-  left_join(popgrow_2022, by = "iso3c")
+  left_join(wbpop2022_mergable, by = "iso3c") %>%
+  left_join(wbpopgrow2022_mergable, by = "iso3c")
+```
+
+Delete labels, 3 decimal places for WB popgrow, reorder columns
+```{r}
+attr(eo_2023$GDP, "label") <- NULL
+attr(eo_2023$Contraception, "label") <- NULL
+attr(eo_2023$Population_WB_2022, "label") <- NULL
+attr(eo_2023$PopGrowRate_WB_2022, "label") <- NULL
+
+eo_2023$PopGrowRate_WB_2022 <- round(eo_2023$PopGrowRate_WB_2022, 3)
+
+eo_2023 <- eo_2023 %>% 
+  select("iso3c", "Country", "Grade", "TFR", "Photos", "Sustainable_pop", "Species_2022_2", "Population_WB_2022", "PopGrowRate_WB_2022", "Population_UN_2021", "PopGrowRate_UN_2021", "Contraception", "Year_contracept", "GDP", "Year_gdp", "Continent", "Biocapacity_pp_2019", "Footprint_pp_2019", "Population_2019", "iso2c")
+```
+
+Taiwan copy UN population and growrate into World Bank columns 
+```{r}
+Taiwan_population_UN_2021 <- eo_2023[165, 10] 
+eo_2023[eo_2023$iso3c == "TWN", "Population_WB_2022"] = Taiwan_population_UN_2021
+Taiwan_popgrow_UN_2021 <- eo_2023[165, 11] 
+eo_2023[eo_2023$iso3c == "TWN", "PopGrowRate_WB_2022"] = Taiwan_popgrow_UN_2021
+
+# French Guiana[61] missing in WB, present in UN
+eo_2023[61,8] <- eo_2023[61,10]
+eo_2023[61,9] <- eo_2023[61,11]
+
+# Bulgaria WB 2022 popgrow -6.2% replaced by UN 2021
+eo_2023[25,9] <- eo_2023[25,11]
+```
+
+Round off numbers
+```{r}
+# dput(names(eo_2023)) # gets column names
+# eo_before_rounding <- eo_2023
+# eo_2023 <- eo_before_rounding %>% 
+#   select()
 ```
 
 Archive and export for web sheet
