@@ -1,0 +1,21 @@
+```{r, message=false}
+library(tidyverse)
+library(countrycode)
+library(WDI)
+library(wbstats)
+library(wpp2022)
+```
+
+
+```{r}
+Burundi_pop <- WDI(
+  country = 'BI',
+  indicator = 'SP.POP.TOTL',
+  start = 2019,
+  end = 2022,
+  language = 'en'
+)
+Burundi_pop
+```
+
+WDI "latest = 1" should give most recent non-NA value from year range

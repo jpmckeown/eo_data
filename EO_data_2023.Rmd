@@ -402,10 +402,6 @@ Archive and export eo_2023
 eo_2023_order <- eo_2023 %>% 
   rename("Population_2019" = "Population_gfn_2019") %>% 
   select("iso3c", "Country", "Photos", "Biocapacity_pp_2019", "Footprint_pp_2019", "Population_2019", "Sustainable_pop", "PopGrowRate_UN_2021", "Population_UN_2021", "Species_2022_2", "Contraception", "Year_contracept",   "GDP", "Year_gdp", "TFR", "Continent", "iso2c")
-
-# re-used after adding back old 2021 Sustainability Grade 
-saveRDS(eo_2023, file="data/eo_2023_oldGrade.rds")
-write_csv(eo_2023, "data/eo_July_2023_oldGrade.csv")
 ```
 
 Sustainability Grade column
@@ -420,3 +416,18 @@ eo_2023 <- eo_2023_order %>%
   left_join(grades, by = "iso3c") %>% 
   rename(Grade = Rank_sustain_2020)
 ```
+
+Merge in World Bank population 2022 and popgrow rate 2022
+```{r}
+eo_before_WB_pop <- eo_2023
+eo_2023 <- eo_before_WB_pop %>% 
+  left_join(WB_pop_2022, by = "iso3c") %>%
+  left_join(popgrow_2022, by = "iso3c")
+```
+
+Archive and export for web sheet
+```{r}
+saveRDS(eo_2023, file="data/eo_WB_2023.rds")
+write_csv(eo_2023, "data/eo_WB_2023.csv")
+```
+
