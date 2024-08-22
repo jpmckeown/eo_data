@@ -93,8 +93,42 @@ eo_2024 <- eo_stem %>%
 head(eo_2024)
 ```
 
-Archive and export for web sheet
+Population Growth Rate, most recent
+```{r, popgrowth}
+# get recent year and see if complete all rows
+popgrow_2023_WB <- WDI(
+  country = 'all',
+  indicator = 'SP.POP.GROW',
+  start = 2023,
+  end = 2023,
+  extra = FALSE,
+  cache = NULL,
+  latest = NULL,
+  language = 'en'
+)
+
+# count missing rows
+sum(is.na(popgrow_2023_WB$SP.POP.GROW))
+
+# identify missing rows
+na_row <- popgrow_2023_WB[is.na(popgrow_2023_WB$SP.POP.GROW), ]
+print(na_row$country)
+```
+
 ```{r}
+popgrow_2023_wb_mergable <- popgrow_2023_WB %>% 
+  select(iso3c, SP.POP.GROW)
+```
+
+Add pop gowth rate to Countries table 
+```{r}
+eo_2024 <- eo_2024 %>% 
+  left_join(popgrow_2023_wb_mergable, by = "iso3c")
+head(eo_2024)
+```
+
+Archive and export for web sheet
+```{r echo = FALSE, eval = FALSE}
 saveRDS(eo_stem, file="data/eo_2024.rds")
 write_csv(eo_stem, "data/eo_2024.csv")
 ```
