@@ -185,6 +185,44 @@ eo_2024 <- eo_2024 %>%
 head(eo_2024)
 ```
 
+GDP per capita, most recent year available
+```{r, GDP}
+tmp_gdp <- WDI(
+  country = 'all',
+  indicator = 'NY.GDP.PCAP.CD',
+  start = 2011,
+  end = 2023,
+  extra = FALSE,
+  cache = NULL,
+  latest = NULL,
+  language = 'en'
+)
+sum(is.na(tmp_gdp$iso3c)) # =0
+
+gdp_pp_2023_wb <- tmp_gdp %>%
+  rename(gdp_year = year) %>% 
+  select(iso3c, NY.GDP.PCAP.CD, gdp_year) %>% 
+  group_by(iso3c) %>% 
+  filter(!is.na(NY.GDP.PCAP.CD)) %>% 
+  slice_max(gdp_year)
+
+head(gdp_pp_2023_wb, 1)
+```
+
+GDP and year of most recent data point as mergable columns
+```{r echo = FALSE, eval = FALSE}
+gdp_pp_2023_wb_mergable <- gdp_pp_2023_wb %>% 
+  select(iso3c, SP.DYN.CONM.ZS, contracept_year)
+head(contracept_2023_wb_mergable,1)
+```
+
+Merge GDP data & year into Countries list
+```{r}
+eo_2024 <- eo_2024 %>% 
+  left_join(gdp_pp_2023_wb, by = "iso3c")
+head(eo_2024)
+```
+
 Archive and export for web sheet
 ```{r echo = FALSE, eval = FALSE}
 saveRDS(eo_stem, file="data/eo_2024.rds")
