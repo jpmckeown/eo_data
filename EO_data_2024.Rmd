@@ -223,6 +223,42 @@ eo_2024 <- eo_2024 %>%
 head(eo_2024)
 ```
 
+## IUCN threatened species total by country
+Most recent is 2024-1 https://www.iucnredlist.org/support/whatsnew
+```{r}
+species_2024 = read_csv("data/IUCN_2024_August_Table_5_Threatened_species_by_country.csv")
+threat <- species_2024 %>%
+  rename(Country = Name) %>% 
+  rename(Species = Total) %>% 
+  select(Country, Species)
+head(threat)
+```
+
+Add iso3c column based on name in Country
+```{r}
+threat$iso3c <- countrycode(sourcevar = threat$Country, 
+                        origin = "country.name",
+                        destination = "iso3c")
+head(threat)
+sum(is.na(threat$iso3c))
+```
+
+make mergable table of Species threatened per country
+```{r}
+species_2024_mergable <- threat %>%
+  filter(!is.na(iso3c)) %>% 
+  rename(Species_2024 = Species) %>% 
+  select(iso3c, Species_2024)
+head(species_2024_mergable)
+```
+
+Merge IUCN Threatened Species into Countries list
+```{r}
+eo_2024 <- eo_2024 %>% 
+  left_join(species_2024_mergable, by = "iso3c")
+head(eo_2024)
+```
+
 Archive and export for web sheet
 ```{r echo = FALSE, eval = FALSE}
 saveRDS(eo_stem, file="data/eo_2024.rds")
