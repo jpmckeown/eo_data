@@ -1,6 +1,7 @@
 # eo_data
 
-August 2024 - 
+August 2024 - begin with country stem, 
+WB population total 2023 has 1 missing value, same as in 2022
 
 July 2023 - new GFN data retrieved by API as JSON files and imported into CSV
 

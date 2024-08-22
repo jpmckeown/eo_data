@@ -55,6 +55,30 @@ eo_stem$Country[eo_stem$Country == "St. Lucia"] = "Saint Lucia"
 eo_stem$Country[eo_stem$Country == "St Vincent and the Grenadines"] = "Saint Vincent and the Grenadines"
 ```
 
+## World Bank data
+
+Population total
+
+```{r}
+WB_pop_2023 <- WDI(
+  country = 'all',
+  indicator = 'SP.POP.TOTL',
+  start = 2023,
+  end = 2023,
+  extra = FALSE,
+  cache = NULL,
+  latest = NULL,
+  language = 'en'
+)
+
+# count missing rows
+sum(is.na(WB_pop_2023$SP.POP.TOTL))
+
+na_row <- WB_pop_2022[is.na(WB_pop_2022$SP.POP.TOTL), ]
+print(na_row$country) 
+head(WB_pop_2023)
+```
+
 Archive and export for web sheet
 ```{r}
 saveRDS(eo_stem, file="data/eo_2024.rds")
