@@ -120,10 +120,68 @@ popgrow_2023_wb_mergable <- popgrow_2023_WB %>%
   select(iso3c, SP.POP.GROW)
 ```
 
-Add pop gowth rate to Countries table 
+Add population growth rate to Countries table 
 ```{r}
 eo_2024 <- eo_2024 %>% 
   left_join(popgrow_2023_wb_mergable, by = "iso3c")
+head(eo_2024)
+```
+
+Contraception, prevalence % modern methods
+Only a few countries have data in recent years
+```{r, contraception}
+contracept_2023_wb <- WDI(
+  country = 'all',
+  indicator = 'SP.DYN.CONM.ZS',
+  start = 2021,
+  end = 2021,
+  extra = FALSE,
+  cache = NULL,
+  latest = NULL,
+  language = 'en'
+)
+
+sum(is.na(contracept_2023_wb$SP.DYN.CONM.ZS))
+
+# identify missing rows
+na_row <- contracept_2023_wb[is.na(contracept_2023_wb$SP.DYN.CONM.ZS), ]
+# print(na_row$country)
+```
+
+```{r}
+tmp_contracept <- WDI(
+  country = 'all',
+  indicator = 'SP.DYN.CONM.ZS',
+  start = 1984,
+  end = 2023,
+  extra = FALSE,
+  cache = NULL,
+  latest = NULL,
+  language = 'en'
+)
+sum(is.na(tmp_contracept$iso3c))
+
+contraception <- tmp_contracept %>%
+  select(iso3c, year, SP.DYN.CONM.ZS, country) %>% 
+  group_by(iso3c) %>% 
+  filter(!is.na(SP.DYN.CONM.ZS)) %>% 
+  slice_max(year)
+  
+head(contraception)
+```
+
+Contraception % and year of most recent data point as mergable columns
+```{r}
+contracept_2023_wb_mergable <- contraception %>% 
+  rename(contracept_year = year) %>% 
+  select(iso3c, SP.DYN.CONM.ZS, contracept_year)
+head(contracept_2023_wb_mergable,1)
+```
+
+Merge contraception data & year into Countries list
+```{r}
+eo_2024 <- eo_2024 %>% 
+  left_join(contracept_2023_wb_mergable, by = "iso3c")
 head(eo_2024)
 ```
 
