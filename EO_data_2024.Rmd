@@ -74,9 +74,23 @@ WB_pop_2023 <- WDI(
 # count missing rows
 sum(is.na(WB_pop_2023$SP.POP.TOTL))
 
-na_row <- WB_pop_2022[is.na(WB_pop_2022$SP.POP.TOTL), ]
-print(na_row$country) 
+# identify missing rows
+na_row <- WB_pop_2023[is.na(WB_pop_2023$SP.POP.TOTL), ]
+print(na_row$country)
+
 head(WB_pop_2023)
+```
+
+```{r}
+wbpop2023_mergable <- WB_pop_2023 %>% 
+  select(iso3c, SP.POP.TOTL)
+head(wbpop2023_mergable)
+```
+
+```{r}
+eo_2024 <- eo_stem %>% 
+  left_join(wbpop2023_mergable, by = "iso3c")
+head(eo_2024)
 ```
 
 Archive and export for web sheet
