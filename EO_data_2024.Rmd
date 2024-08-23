@@ -370,6 +370,48 @@ eo_2024_gfn <- eo_2024_gfn %>%
   )
 ```
 
+Taiwan data
+```{r, Taiwan}
+# https://eng.stat.gov.tw/Point.aspx?sid=t.9&n=4208&sms=11713
+Pop_2024_Taiwan <- 23409323
+Pop_2019_Taiwan <- 23777737
+# https://www.macrotrends.net/global-metrics/countries/TWN/taiwan/population-growth-rate#:~:text=The%20population%20of%20Taiwan%20in,a%200.16%25%20increase%20from%202020.
+PopGrowth_Taiwan = 0.11
+# https://eng.stat.gov.tw/cp.aspx?n=2334
+GDP_pp_Taiwan <- 32474
+# https://population.un.org/dataportal/countryProfiles/types/1/topics/5/coreThemes/1/locations/158?classId=reg&palette=Blues&secpalette=alphabet2
+# https://www.cia.gov/the-world-factbook/countries/taiwan/ # 75.2
+Contracept_Taiwan <- 74.7
+# https://www.nature.com/articles/s41598-021-94540-7
+Footprint_pp_Taiwan <- 6.46
+Biocapacity_pp_Taiwan <- 1.3
+# for Sustainable Pop calculation
+Sustainable_pop_Taiwan <- floor(Biocapacity_pp_Taiwan / Footprint_pp_Taiwan * Pop_2019_Taiwan)
+```
+
+Taiwan insert data in countries table
+```{r}
+eo_2024_gfn[eo_2024_gfn$iso3c == "TWN", "SP.POP.TOTL"] = Pop_2024_Taiwan
+eo_2024_gfn[eo_2024_gfn$iso3c == "TWN", "SP.POP.GROW"] = 0.11
+
+eo_2024_gfn[eo_2024_gfn$iso3c == "TWN", "Sustainable_pop"] = Sustainable_pop_Taiwan
+
+eo_2024_gfn[eo_2024_gfn$iso3c == "TWN", "SP.DYN.CONM.ZS"] = Contracept_Taiwan
+# eo_2024_gfn[eo_2024_gfn$iso3c == "TWN", "Year_contracept"] = # not supplied
+
+eo_2024_gfn[eo_2024_gfn$iso3c == "TWN", "NY.GDP.PCAP.CD"] = GDP_pp_Taiwan
+eo_2024_gfn[eo_2024_gfn$iso3c == "TWN", "gdp_year"] = 2022
+# eo_2024_gfn[eo_2024_gfn$iso3c == "TWN", "Population_gfn_2019"] = Pop_2019_Taiwan
+# eo_2024_gfn[eo_2024_gfn$iso3c == "TWN", "Footprint_pp_2019"] = Footprint_pp_Taiwan
+# eo_2024_gfn[eo_2024_gfn$iso3c == "TWN", "Biocapacity_pp_2019"] = Biocapacity_pp_Taiwan
+
+```
+
+Add missing values for 2022 sustainable population, from 2019
+```{r}
+
+```
+
 Restart work after shutdown
 ```{r echo = FALSE, eval = FALSE}
 eo_2024 <- readRDS('data/eo_2024.rds')
