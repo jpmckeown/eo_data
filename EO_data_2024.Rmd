@@ -32,6 +32,7 @@ library(countrycode)
 library(devtools)
 options(timeout = 600)
 library(WDI)
+library(readxl)
 ```
 
 ```{r, stem}
@@ -259,7 +260,29 @@ eo_2024 <- eo_2024 %>%
 head(eo_2024)
 ```
 
+GFN biocapacity and footprint 2019 data from public spreadsheet
+In 2023 the data was acquired as JSON files using the API
+```{r}
+gfn_2019 <- read_excel("NFBA-2023-Public-Data-Package-1.0-1/NFBA_2019.xlsx", col_names = FALSE) %>%
+  slice(22:204) %>%
+  setNames(make.unique(as.character(.[1,]), sep = "_")) %>%
+  slice(-1) %>%
+  rename("Population_GFN_2019" = "Population (millions)") %>%
+  rename("Biocapacity_2019" = "Total biocapacity") %>%
+  rename("Footprint_2019" = "Total Ecological Footprint (Consumption)") %>%
+  select(Country, Biocapacity_2019, Footprint_2019, Population_GFN_2019)
+head(gfn_2019, 3)
+tail(gfn_2019, 2)
+colnames(gfn_2019)
+```
+
+Restart work after shutdown
+```{r echo = FALSE, eval = FALSE}
+eo_2024 <- readRDS('data/eo_2024.rds')
+```
+
 Archive and export for web sheet
+or use this in {r } to stop export: echo = FALSE, eval = FALSE
 ```{r echo = FALSE, eval = FALSE}
 saveRDS(eo_stem, file="data/eo_2024.rds")
 write_csv(eo_stem, "data/eo_2024.csv")
