@@ -291,6 +291,33 @@ tail(gfn_2022, 2)
 colnames(gfn_2022)
 ```
 
+```{r}
+gfn_2022 <- gfn_2022 %>%
+  mutate(Country_standard = countrycode(Country, origin = 'country.name', destination = 'country.name'))
+
+# Identify countries where the original and standardized names differ
+different_names <- gfn_2022 %>%
+  filter(Country != Country_standard) %>%
+  select(Country, Country_standard)
+
+# Count the number of countries with different names
+num_different <- nrow(different_names)
+
+# Print the results
+cat("Number of countries with different standard names:", num_different, "\n\n")
+print("Countries with different names:")
+print(different_names)
+
+# Any countries that couldn't be standardized (NA in Country_standard)
+unmatched_countries <- gfn_2022 %>%
+  filter(is.na(Country_standard)) %>%
+  select(Country)
+
+# cat("\nNumber of countries that couldn't be standardized:", nrow(unmatched_countries), "\n\n")
+print("Countries that couldn't be standardized:")
+print(unmatched_countries)
+```
+
 Restart work after shutdown
 ```{r echo = FALSE, eval = FALSE}
 eo_2024 <- readRDS('data/eo_2024.rds')

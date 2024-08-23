@@ -289,7 +289,7 @@ head(gdp_pp_2022)
 popgrow_2022
 UN_population_2021
 contraception
-threat(speacies)
+threat(species)
 gdp_pp_2022
 TFR_2021
 
