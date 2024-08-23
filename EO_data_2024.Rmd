@@ -463,6 +463,29 @@ eo_2024_gfn[eo_2024_gfn$iso3c == "LKA", "Sustainable_pop"] = 6517041
 eo_2024_gfn[eo_2024_gfn$iso3c == "KNA", "Sustainable_pop"] = 2506
 ```
 
+Sustainability Grade column
+as of August 2024 still the same as in November 2022
+```{r}
+eo_2023 <- readRDS('data/eo_2023_order.rds')
+colnames(eo_2023)
+# grades <- eo_2023 %>% 
+#   select(iso3c, Rank_sustain_2020)
+# 
+# eo_2024_beforeGrade <- eo_2024_gfn # preserve
+# 
+# eo_2024 <- eo_2024_gfn %>% 
+#   left_join(grades, by = "iso3c") %>% 
+#   rename(Grade = Rank_sustain_2020) %>%
+#   select(
+#   Country, Continent, Photos, iso2c, iso3c, 
+#   Grade,  # Move this column here
+#   Sustainable_pop, 
+#   SP.POP.TOTL, SP.POP.GROW, SP.DYN.CONM.ZS, contracept_year, 
+#   NY.GDP.PCAP.CD, gdp_year, Species_2024, 
+#   Biocapacity_2022, Footprint_2022, Population_GFN_2022, 
+#   Country_standard)
+```
+
 Restart work after shutdown
 ```{r echo = FALSE, eval = FALSE}
 eo_2024 <- readRDS('data/eo_2024.rds')

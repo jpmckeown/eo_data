@@ -15,9 +15,10 @@ GFN data imported from spreadsheet and merged using standardized country name.
 
 Taiwan data inserted separately from alternative sources.
 
-Tasks:
-Missing data for 
+Missing data added.
 
+Tasks:
+Grade from November 2022 - which RDS file contains it?
 
 July 2023
 
