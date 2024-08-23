@@ -276,6 +276,21 @@ tail(gfn_2019, 2)
 colnames(gfn_2019)
 ```
 
+GFN biocapacity and footprint 2022 estimates from public spreadsheet
+```{r}
+gfn_2022 <- read_excel("NFBA-2023-Public-Data-Package-1.0-1/NFBA_2022_estimate.xlsx", col_names = FALSE) %>%
+  slice(22:204) %>%
+  setNames(make.unique(as.character(.[1,]), sep = "_")) %>%
+  slice(-1) %>%
+  rename("Population_GFN_2022" = "Population (millions)") %>%
+  rename("Biocapacity_2022" = "Total biocapacity") %>%
+  rename("Footprint_2022" = "Total Ecological Footprint (Consumption)") %>%
+  select(Country, Biocapacity_2022, Footprint_2022, Population_GFN_2022)
+head(gfn_2022, 3)
+tail(gfn_2022, 2)
+colnames(gfn_2022)
+```
+
 Restart work after shutdown
 ```{r echo = FALSE, eval = FALSE}
 eo_2024 <- readRDS('data/eo_2024.rds')
