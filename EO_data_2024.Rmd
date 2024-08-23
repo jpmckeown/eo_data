@@ -317,6 +317,19 @@ unmatched_countries <- gfn_2022 %>%
 print("Countries that couldn't be standardized:")
 print(unmatched_countries)
 ```
+add standardized country name to eo_2024
+```{r}
+eo_2024 <- eo_2024 %>%
+  mutate(Country_standard = countrycode(iso3c, origin = 'iso3c', destination = 'country.name'))
+```
+
+```{r}
+eo_2024_gfn <- eo_2024 %>%
+  left_join(gfn_2022, by = "Country_standard") %>%
+  select(-Country.y) %>%  # delete duplicate column
+  select(-Country_standard, everything(), Country_standard) # move standardized name to final column position
+head(eo_2024_gfn, 1)
+```
 
 Restart work after shutdown
 ```{r echo = FALSE, eval = FALSE}
