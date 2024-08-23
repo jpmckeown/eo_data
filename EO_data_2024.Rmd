@@ -186,6 +186,51 @@ eo_2024 <- eo_2024 %>%
 head(eo_2024)
 ```
 
+TFR add to spreadsheet because it is often used in Country Comments text
+Recent data not so sparse as Contraception: 266 missing in 2023; 8 missing in 2022 
+Can use 2022 data rather than spanning years and taking two columns for most recent value and year
+```{r}
+tfr_2022_wb <- WDI(
+  country = 'all',
+  indicator = 'SP.DYN.TFRT.IN',
+  start = 2022,
+  end = 2022,
+  extra = FALSE,
+  cache = NULL,
+  latest = NULL,
+  language = 'en'
+)
+sum(is.na(tfr_2022_wb$SP.DYN.TFRT.IN))
+# identify missing rows
+na_row <- tfr_2022_wb[is.na(tfr_2023_wb$SP.DYN.TFRT.IN), ]
+print(na_row$country)
+```
+
+I did this last after collecting GFN data, if it was done earlier should refer to eo_2024
+```{r}
+tfr_2022_wb_mergable <- tfr_2022_wb %>% 
+  select(iso3c, SP.DYN.TFRT.IN)
+
+eo_2024_gfn <- eo_2024_gfn %>% 
+  left_join(tfr_2022_wb_mergable, by = "iso3c") %>%
+  select(
+    Country, Continent, Photos, iso2c, iso3c, 
+    Sustainable_pop,
+    SP.POP.TOTL, SP.POP.GROW, 
+    SP.DYN.TFRT.IN, # inserting TFR column here
+    SP.DYN.CONM.ZS, contracept_year, 
+    NY.GDP.PCAP.CD, gdp_year, Species_2024, 
+    Biocapacity_2022, Footprint_2022, Population_GFN_2022, 
+    Country_standard)
+
+head(eo_2024_gfn)
+```
+
+Add population growth rate to Countries table 
+```{r}
+
+```
+
 GDP per capita, most recent year available
 ```{r, GDP}
 tmp_gdp <- WDI(
@@ -407,9 +452,15 @@ eo_2024_gfn[eo_2024_gfn$iso3c == "TWN", "gdp_year"] = 2022
 
 ```
 
-Add missing values for 2022 sustainable population, from 2019
+Add missing values for 2022 sustainable population, from 2019 JSON data
 ```{r}
-
+eo_2024_gfn[eo_2024_gfn$iso3c == "BHS", "Sustainable_pop"] = 2212238
+eo_2024_gfn[eo_2024_gfn$iso3c == "ISL", "Sustainable_pop"] = 204318
+eo_2024_gfn[eo_2024_gfn$iso3c == "LBY", "Sustainable_pop"] = 1523342
+eo_2024_gfn[eo_2024_gfn$iso3c == "MDV", "Sustainable_pop"] = 89154
+eo_2024_gfn[eo_2024_gfn$iso3c == "SYC", "Sustainable_pop"] = 103834
+eo_2024_gfn[eo_2024_gfn$iso3c == "LKA", "Sustainable_pop"] = 6517041
+eo_2024_gfn[eo_2024_gfn$iso3c == "KNA", "Sustainable_pop"] = 2506
 ```
 
 Restart work after shutdown
@@ -419,7 +470,7 @@ eo_2024 <- readRDS('data/eo_2024.rds')
 
 Archive and export for web sheet
 or use this in {r } to stop export: echo = FALSE, eval = FALSE
-```{r echo = FALSE, eval = FALSE}
-saveRDS(eo_stem, file="data/eo_2024.rds")
-write_csv(eo_stem, "data/eo_2024.csv")
+```{r}
+saveRDS(eo_2024_gfn, file="data/eo_2024_gfn.rds")
+write_csv(eo_2024_gfn, "data/eo_2024_gfn.csv")
 ```

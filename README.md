@@ -13,7 +13,11 @@ GFN data imported from spreadsheet and merged using standardized country name.
   last year the 2019 data was acquired by API as JSON files
   GFN sheet has 2019 or an estimate of 2022
 
-Find how sust pop is calculated
+Taiwan data inserted separately from alternative sources.
+
+Tasks:
+Missing data for 
+
 
 July 2023
 
