@@ -466,8 +466,15 @@ eo_2024_gfn[eo_2024_gfn$iso3c == "KNA", "Sustainable_pop"] = 2506
 Sustainability Grade column
 as of August 2024 still the same as in November 2022
 ```{r}
-eo_2023 <- readRDS('data/eo_2023_order.rds')
-colnames(eo_2023)
+grades_2021 = read_csv("data/Grade_2021.csv")
+grades_2021 <- grades_2021 %>%
+  rename(Grade_2021 = "2021 Grade") %>% 
+  select(iso3c, Grade_2021)
+head(grades_2021, 1)
+
+# eo_2023 <- readRDS('data/eo_2023_order.rds')
+# colnames(eo_2023)
+
 # grades <- eo_2023 %>% 
 #   select(iso3c, Rank_sustain_2020)
 # 
@@ -486,6 +493,21 @@ colnames(eo_2023)
 #   Country_standard)
 ```
 
+```{r}
+eo_2024_Grade <- eo_2024_gfn %>%
+  left_join(grades_2021, by = "iso3c") %>%
+  select(
+    Country, Continent, Photos, iso2c, iso3c, 
+    Grade_2021, # Move this column here
+    Sustainable_pop, SP.POP.TOTL, SP.POP.GROW, 
+    SP.DYN.CONM.ZS, contracept_year, 
+    NY.GDP.PCAP.CD, gdp_year, Species_2024, 
+    Biocapacity_2022, Footprint_2022, Population_GFN_2022, 
+    Country_standard
+  )
+head(eo_2024_Grade, 1)
+```
+
 Restart work after shutdown
 ```{r echo = FALSE, eval = FALSE}
 eo_2024 <- readRDS('data/eo_2024.rds')
@@ -494,6 +516,6 @@ eo_2024 <- readRDS('data/eo_2024.rds')
 Archive and export for web sheet
 or use this in {r } to stop export: echo = FALSE, eval = FALSE
 ```{r}
-saveRDS(eo_2024_gfn, file="data/eo_2024_gfn.rds")
-write_csv(eo_2024_gfn, "data/eo_2024_gfn.csv")
+saveRDS(eo_2024, file="data/eo_2024.rds")
+write_csv(eo_2024, "data/eo_2024.csv")
 ```

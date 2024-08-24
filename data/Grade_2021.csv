@@ -1,0 +1,186 @@
+iso3c,Country,2024 Grade,2021 Grade
+AFG,Afghanistan,,F
+ALB,Albania,,B
+DZA,Algeria,,D
+AGO,Angola,,C
+ATG,Antigua and Barbuda,,F
+ARG,Argentina,,C
+ARM,Armenia,,F
+AUS,Australia,,C
+AUT,Austria,,C
+AZE,Azerbaijan,,D
+BHS,Bahamas,,B
+BHR,Bahrain,,D
+BGD,Bangladesh,,C
+BRB,Barbados,,C
+BLR,Belarus,,B
+BEL,Belgium,,D
+BLZ,Belize,,C
+BEN,Benin,,D
+BTN,Bhutan,,B
+BOL,Bolivia,,B
+BIH,Bosnia and Herzegovina,,B
+BWA,Botswana,,B
+BRA,Brazil,,D
+BRN,Brunei,,C
+BGR,Bulgaria,,B
+BFA,Burkina Faso,,D
+BDI,Burundi,,D
+CPV,Cabo Verde,,C
+KHM,Cambodia,,C
+CMR,Cameroon,,C
+CAN,Canada,,B
+CAF,Central African Republic,,C
+TCD,Chad,,D
+CHL,Chile,,C
+CHN,China,,D
+COL,Colombia,,B
+COM,Comoros,,F
+CRI,Costa Rica,,B
+HRV,Croatia,,C
+CUB,Cuba,,C
+CUW,Curacao,,
+CYP,Cyprus,,C
+CZE,Czech Republic,,B 
+COD,Democratic Republic of the Congo,,C
+DNK,Denmark,,B
+DJI,Djibouti,,D
+DMA,Dominica,,C
+DOM,Dominican Republic,,C
+TLS,East Timor,,C
+ECU,Ecuador,,C
+EGY,Egypt,,D
+SLV,El Salvador,,C
+GNQ,Equatorial Guinea,,C
+ERI,Eritrea,,D
+EST,Estonia,,C
+SWZ,Eswatini,,C
+ETH,Ethiopia,,D
+FJI,Fiji,,C
+FIN,Finland,,A
+FRA,France,,C
+GUF,French Guiana,,B
+GAB,Gabon,,B
+GMB,Gambia,,F
+GEO,Georgia,,C
+DEU,Germany,,D
+GHA,Ghana,,D
+GRC,Greece,,C
+GRD,Grenada,,B
+GTM,Guatemala,,D
+GIN,Guinea,,C
+GNB,Guinea Bissau,,C
+GUY,Guyana,,B
+HTI,Haiti,,D
+HND,Honduras,,D
+HUN,Hungary,,C
+ISL,Iceland,,
+IND,India,,D
+IDN,Indonesia,,D
+IRN,Iran,,D
+IRQ,Iraq,,D
+IRL,Ireland,,B
+ISR,Israel,,D
+ITA,Italy,,C
+CIV,Ivory Coast,,C
+JAM,Jamaica,,C
+JPN,Japan,,C
+JOR,Jordan,,F
+KAZ,Kazakhstan,,D
+KEN,Kenya,,D
+KWT,Kuwait,,D
+KGZ,Kyrgyzstan,,C
+LAO,Laos,,C
+LVA,Latvia,,B
+LBN,Lebanon,,D
+LSO,Lesotho,,D
+LBR,Liberia,,D
+LBY,Libya,,D
+LIE,Liechtenstein,,NA
+LTU,Lithuania,,A
+LUX,Luxemborg,,D
+MDG,Madagascar,,D
+MWI,Malawi,,D
+MYS,Malaysia,,C
+MDV,Maldives,,
+MLI,Mali,,D
+MLT,Malta,,D
+MRT,Mauritania,,C
+MUS,Mauritius,,C
+MEX,Mexico,,D
+MDA,Moldova,,C
+MCO,Monaco,,
+MNG,Mongolia,,B
+MNE,Montenegro,,B
+MAR,Morocco,,C
+MOZ,Mozambique,,D
+MMR,Myanmar,,C
+NAM,Namibia,,C
+NPL,Nepal,,C
+NLD,Netherlands,,C
+NZL,New Zealand,,B
+NIC,Nicaragua,,C
+NER,Niger,,F
+NGA,Nigeria,,F
+PRK,North Korea,,D
+MKD,North Macedonia,,C
+NOR,Norway,,A
+OMN,Oman,,C
+PAK,Pakistan,,D
+PAN,Panama,,B
+PNG,Papua New Guinea,,C
+PRY,Paraguay,,B
+PER,Peru,,C
+PHL,Philippines,,D
+POL,Poland,,C
+PRT,Portugal,,C
+QAT,Qatar,,F
+COG,Republic of the Congo,,B
+ROU,Romania,,B
+RUS,Russia,,C
+RWA,Rwanda,,C
+STP,Sao Tome and Principe,,
+SAU,Saudi Arabia,,F
+SEN,Senegal,,C
+SRB,Serbia,,C
+SYC,Seychelles,,
+SLE,Sierra Leone,,C
+SGP,Singapore,,F
+SVK,Slovakia,,C
+SVN,Slovenia,,B
+SLB,Solomon Islands,,C
+SOM,Somalia,,D
+ZAF,South Africa,,D
+KOR,South Korea,,D
+SSD,South Sudan,,
+ESP,Spain,,C
+LKA,Sri Lanka,,C
+VCT,Saint Vincent and the Grenadines,,
+KNA,Saint Kitts and Nevis,,D
+LCA,Saint Lucia,,C
+SDN,Sudan,,F
+SUR,Suriname,,A
+SWE,Sweden,,B
+CHE,Switzerland,,C
+SYR,Syria,,F
+TWN,Taiwan,,
+TJK,Tajikistan,,F
+TZA,Tanzania,,F
+THA,Thailand,,C
+TGO,Togo,,F
+TTO,Trinidad and Tobago,,C
+TUN,Tunisia,,C
+TUR,Turkey,,D
+TKM,Turkmenistan,,F
+UGA,Uganda,,D
+UKR,Ukraine,,B
+ARE,United Arab Emirates,,D
+GBR,United Kingdom,,C
+USA,United States of America,,D
+URY,Uruguay,,B
+UZB,Uzbekistan,,D
+VEN,Venezuela,,C
+VNM,Vietnam,,D
+YEM,Yemen,,F
+ZMB,Zambia,,D
+ZWE,Zimbabwe,,D
