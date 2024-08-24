@@ -200,35 +200,29 @@ tfr_2022_wb <- WDI(
   latest = NULL,
   language = 'en'
 )
+
 sum(is.na(tfr_2022_wb$SP.DYN.TFRT.IN))
 # identify missing rows
 na_row <- tfr_2022_wb[is.na(tfr_2023_wb$SP.DYN.TFRT.IN), ]
 print(na_row$country)
 ```
 
-I did this last after collecting GFN data, if it was done earlier should refer to eo_2024
+I did this last after collecting GFN data, therefore used eo_2024_gfn
+if placed earlier in script should instead refer to eo_2024
 ```{r}
 tfr_2022_wb_mergable <- tfr_2022_wb %>% 
   select(iso3c, SP.DYN.TFRT.IN)
 
-eo_2024_gfn <- eo_2024_gfn %>% 
+eo_2024 <- eo_2024 %>% 
   left_join(tfr_2022_wb_mergable, by = "iso3c") %>%
   select(
-    Country, Continent, Photos, iso2c, iso3c, 
-    Sustainable_pop,
+    Country, Continent, Photos, iso3c,
+    SP.DYN.TFRT.IN, # insert TFR (wb) column here
     SP.POP.TOTL, SP.POP.GROW, 
-    SP.DYN.TFRT.IN, # inserting TFR column here
-    SP.DYN.CONM.ZS, contracept_year, 
-    NY.GDP.PCAP.CD, gdp_year, Species_2024, 
-    Biocapacity_2022, Footprint_2022, Population_GFN_2022, 
-    Country_standard)
+    SP.DYN.CONM.ZS, contracept_year,
+    iso2c)
 
-head(eo_2024_gfn)
-```
-
-Add population growth rate to Countries table 
-```{r}
-
+head(eo_2024)
 ```
 
 GDP per capita, most recent year available
@@ -366,13 +360,14 @@ add standardized country name to eo_2024
 ```{r}
 eo_2024 <- eo_2024 %>%
   mutate(Country_standard = countrycode(iso3c, origin = 'iso3c', destination = 'country.name'))
+head(eo_2024, 1)
 ```
 
 ```{r}
 eo_2024_gfn <- eo_2024 %>%
   left_join(gfn_2022, by = "Country_standard") %>%
-  select(-Country.y) %>%  # delete duplicate column
-  select(-Country_standard, everything(), Country_standard) # move standardized name to final column position
+  rename(Country = Country.x) %>%
+  select(-Country.y) # delete duplicate column
 head(eo_2024_gfn, 1)
 ```
 
@@ -402,9 +397,9 @@ eo_2024_gfn <- eo_2024_gfn %>%
                                    NA_real_))
 ```
 
-```{r}
+Wait until end before re-arranging columns
+```{r echo = FALSE, eval = FALSE}
 eo_2024_gfn <- eo_2024_gfn %>%
-  rename(Country = Country.x) %>%
   select(
     Country, Continent, Photos, iso2c, iso3c, 
     Sustainable_pop,  # Move this column here
@@ -413,6 +408,7 @@ eo_2024_gfn <- eo_2024_gfn %>%
     Biocapacity_2022, Footprint_2022, Population_GFN_2022, 
     Country_standard
   )
+# select(-Country_standard, everything(), Country_standard) # move standardized name to final column position
 ```
 
 Taiwan data
@@ -471,51 +467,39 @@ grades_2021 <- grades_2021 %>%
   rename(Grade_2021 = "2021 Grade") %>% 
   select(iso3c, Grade_2021)
 head(grades_2021, 1)
-
-# eo_2023 <- readRDS('data/eo_2023_order.rds')
-# colnames(eo_2023)
-
-# grades <- eo_2023 %>% 
-#   select(iso3c, Rank_sustain_2020)
-# 
-# eo_2024_beforeGrade <- eo_2024_gfn # preserve
-# 
-# eo_2024 <- eo_2024_gfn %>% 
-#   left_join(grades, by = "iso3c") %>% 
-#   rename(Grade = Rank_sustain_2020) %>%
-#   select(
-#   Country, Continent, Photos, iso2c, iso3c, 
-#   Grade,  # Move this column here
-#   Sustainable_pop, 
-#   SP.POP.TOTL, SP.POP.GROW, SP.DYN.CONM.ZS, contracept_year, 
-#   NY.GDP.PCAP.CD, gdp_year, Species_2024, 
-#   Biocapacity_2022, Footprint_2022, Population_GFN_2022, 
-#   Country_standard)
 ```
 
 ```{r}
 eo_2024_Grade <- eo_2024_gfn %>%
   left_join(grades_2021, by = "iso3c") %>%
   select(
-    Country, Continent, Photos, iso2c, iso3c, 
-    Grade_2021, # Move this column here
+    Country, Continent, Photos, iso3c,
+    SP.DYN.TFRT.IN, Grade_2021, # insert column here
     Sustainable_pop, SP.POP.TOTL, SP.POP.GROW, 
     SP.DYN.CONM.ZS, contracept_year, 
     NY.GDP.PCAP.CD, gdp_year, Species_2024, 
     Biocapacity_2022, Footprint_2022, Population_GFN_2022, 
-    Country_standard
+    iso2c, Country_standard
   )
 head(eo_2024_Grade, 1)
 ```
 
 Restart work after shutdown
 ```{r echo = FALSE, eval = FALSE}
-eo_2024 <- readRDS('data/eo_2024.rds')
+eo_2024_Grade <- readRDS('data/eo_2024.rds')
 ```
 
 Archive and export for web sheet
 or use this in {r } to stop export: echo = FALSE, eval = FALSE
 ```{r}
-saveRDS(eo_2024, file="data/eo_2024.rds")
-write_csv(eo_2024, "data/eo_2024.csv")
+saveRDS(eo_2024_Grade, file="data/eo_2024_tfr.rds")
+write_csv(eo_2024_Grade, "data/eo_2024_tfr.csv")
 ```
+
+Save as Excel to include formatting
+e.g. centre-aligned columns, width of columns adjusted, bold header
+```{r echo = FALSE, eval = FALSE}
+library(writexl)
+write_xlsx(eo_2024_Grade, 'data/eo_2024_tfr.xlsx')
+```
+
