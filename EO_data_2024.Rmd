@@ -448,6 +448,16 @@ eo_2024_gfn[eo_2024_gfn$iso3c == "TWN", "gdp_year"] = 2022
 
 ```
 
+French Guiana
+2019 data, and https://www.insee.fr/fr/statistiques/5020211
+https://www.insee.fr/fr/statistiques/fichier/5020211/PIB_regionaux_1990-2022.xlsx
+```{r}
+GUF_population = 300769
+eo_2024_gfn[eo_2024_gfn$iso3c == "GUF", "SP.POP.TOTL"] = GUF_population
+eo_2024_gfn[eo_2024_gfn$iso3c == "GUF", "SP.POP.GROW"] = 2.232
+eo_2024_gfn[eo_2024_gfn$iso3c == "GUF", "NY.GDP.PCAP.CD"] = 4930000000 / GUF_population
+```
+
 Add missing values for 2022 sustainable population, from 2019 JSON data
 ```{r}
 eo_2024_gfn[eo_2024_gfn$iso3c == "BHS", "Sustainable_pop"] = 2212238
