@@ -39,3 +39,6 @@ result_df <- result_df %>%
 # Step 6: View the results
 print("First few rows of result_df:")
 print(head(result_df))
+
+saveRDS(result_df, file="data/eo_2024_check.rds")
+write_csv(result_df, "data/eo_2024_check.csv")

@@ -3,4 +3,5 @@
 .RData
 .Ruserdata
 *.rda
+.venv
 NFBA-2023-Public-Data-Package-1.0-1/
