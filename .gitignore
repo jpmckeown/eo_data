@@ -5,3 +5,7 @@
 *.rda
 .venv
 NFBA-2023-Public-Data-Package-1.0-1/
+data/checking*.xlsx
+data/~*
+.DS_Store
+
