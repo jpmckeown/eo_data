@@ -67,7 +67,7 @@ table.tableStyleInfo = style
 
 ws.insert_rows(idx=1)
 title = ws['A1']
-title.value = "Check by percentage difference between 2024 and 2023 data"
+title.value = "Percentage difference between 2024 and 2023 data to prompt spot-checks"
 
 ws.merge_cells(start_row=1, start_column=1, end_row=1, end_column=8)
 
@@ -82,4 +82,38 @@ for row in ws['A2':'H2']:
       cell.alignment = Alignment(vertical='center')
       cell.font = Font(bold=True)
 
-wb.save('data/checking.xlsx')
+def suspop_highlight(val):
+   color = '#EE9090' if val > 5 else ''
+   return 'background-color: {}'.format(color)
+
+# ws.style.applymap(suspop_highlight, subset=pd.IndexSlice[:,['Maximum_Pop_pct_diff']])
+
+from openpyxl.styles import PatternFill
+# fill pattern for highlighted cells
+highlight_fill = PatternFill(start_color="EE9090", end_color="EE9090", fill_type="solid")
+
+col_letter = 'C' # Maximum sustainable population
+for cell in ws[col_letter][3:]:  # skip title & header by beginning at row 3
+    if cell.value is not None and isinstance(cell.value, (int, float)):
+        if cell.value >= 10 or cell.value <= -10:
+            cell.fill = highlight_fill
+
+col_letter = 'E' # Population total
+for cell in ws[col_letter][3:]:
+    if cell.value is not None and isinstance(cell.value, (int, float)):
+        if cell.value >= 4 or cell.value <= -3:
+            cell.fill = highlight_fill
+
+col_letter = 'G' # Species threatened
+for cell in ws[col_letter][3:]:
+    if cell.value is not None and isinstance(cell.value, (int, float)):
+        if cell.value >= 10 or cell.value <= -10:
+            cell.fill = highlight_fill
+
+col_letter = 'H' # GDP per capita
+for cell in ws[col_letter][3:]:
+    if cell.value is not None and isinstance(cell.value, (int, float)):
+        if cell.value >= 20 or cell.value <= -20:
+            cell.fill = highlight_fill
+
+wb.save('data/checking2.xlsx')
